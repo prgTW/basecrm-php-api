@@ -2,7 +2,7 @@
 
 namespace prgTW\BaseCRM\Service\Rest;
 
-use prgTW\BaseCRM\Service\InstanceResource;
+use prgTW\BaseCRM\Resource\InstanceResource;
 use prgTW\BaseCRM\Utils\Currency;
 
 class Account extends InstanceResource
@@ -124,13 +124,13 @@ class Account extends InstanceResource
 	/** {@inheritdoc} */
 	protected function postHydrate(array $data)
 	{
-		$this->currency = Currency::fromName($data['account']['currency_name']);
+		$this->currency = Currency::fromName($data['currency_name']);
 	}
 
 	/** {@inheritdoc} */
 	protected function postDehydrate(array &$data)
 	{
-		unset($data['account']['currency']);
-		unset($data['account']['currency_name']);
+		unset($data['currency']);
+		unset($data['currency_name']);
 	}
 }

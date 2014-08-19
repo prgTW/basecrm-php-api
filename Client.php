@@ -4,11 +4,13 @@ namespace prgTW\BaseCRM;
 
 use GuzzleHttp\Message\Response;
 use prgTW\BaseCRM\Exception\RestException;
-use prgTW\BaseCRM\Service\Resource;
+use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Rest\Account;
+use prgTW\BaseCRM\Service\Rest\Sources;
 
 /**
  * @property Account account
+ * @property Sources sources
  */
 class Client extends Resource
 {
@@ -33,7 +35,14 @@ class Client extends Resource
 		$this->client = $this;
 		$this->setSubResources([
 			Account::class,
+			Sources::class,
 		]);
+	}
+
+	/** {@inheritdoc} */
+	protected function getEndpoint()
+	{
+		throw new \LogicException('Cannot call client directly');
 	}
 
 	/**
@@ -72,67 +81,73 @@ class Client extends Resource
 
 	/**
 	 * @param string $uri
+	 * @param string $key
 	 * @param array  $options
 	 *
-	 * @return mixed
+	 * @return array|bool
 	 */
-	public function get($uri, array $options = [])
+	public function get($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('GET', $this->getUri($uri), $options);
-		$decoded  = $this->processResponse($response);
+		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
 	/**
 	 * @param string $uri
+	 * @param string $key
 	 * @param array  $options
 	 *
-	 * @return \GuzzleHttp\Message\ResponseInterface
+	 * @return array|bool
 	 */
-	public function post($uri, array $options = [])
+	public function post($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('POST', $this->getUri($uri), $options);
-		$decoded  = $this->processResponse($response);
+		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
 	/**
 	 * @param string $uri
+	 * @param string $key
 	 * @param array  $options
 	 *
-	 * @return \GuzzleHttp\Message\ResponseInterface
+	 * @return array|bool
 	 */
-	public function put($uri, array $options = [])
+	public function put($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('PUT', $this->getUri($uri), $options);
-		$decoded  = $this->processResponse($response);
+		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
 	/**
 	 * @param string $uri
+	 * @param string $key
 	 * @param array  $options
 	 *
-	 * @return \GuzzleHttp\Message\ResponseInterface
+	 * @return array|bool
 	 */
-	public function delete($uri, array $options = [])
+	public function delete($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('DELETE', $this->getUri($uri), $options);
-		$decoded  = $this->processResponse($response);
+		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
 	/**
 	 * @param Response $response
+	 * @param string   $key
 	 *
 	 * @throws Exception\RestException
-	 * @return mixed
+	 * @throws \InvalidArgumentException when key is not found in response data
+	 * @return array|bool
 	 */
-	private function processResponse(Response $response)
+	private function processResponse(Response $response, $key = null)
 	{
 		$status = $response->getStatusCode();
 		if (204 === $status)
@@ -146,7 +161,17 @@ class Client extends Resource
 		{
 			$this->lastResponse = $response;
 
-			return $decoded;
+			if (null === $key)
+			{
+				return $decoded;
+			}
+
+			if (false === array_key_exists($key, $decoded))
+			{
+				throw new \InvalidArgumentException(sprintf('Key "%s" not found in data', $key));
+			}
+
+			return $decoded[$key];
 		}
 
 		throw new RestException($response->getBody()->getContents(), $status);
