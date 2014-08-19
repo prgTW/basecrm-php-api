@@ -165,7 +165,7 @@ abstract class Resource
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function postHydrate(array &$data)
+	protected function postHydrate(array $data)
 	{
 
 	}
