@@ -1,54 +1,30 @@
 <?php
 
-namespace prgTW\BaseCRM;
+namespace prgTW\BaseCRM\Client;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Message\ResponseInterface;
 use prgTW\BaseCRM\Exception\RestException;
-use prgTW\BaseCRM\Resource\Resource;
-use prgTW\BaseCRM\Service\Rest\Account;
-use prgTW\BaseCRM\Service\Rest\Sources;
 
-/**
- * @property Account account
- * @property Sources sources
- */
-class Client extends Resource
+abstract class Client implements ClientInterface
 {
-	const TOKEN_FUTUERSIMPLE_NAME = 'X-Futuresimple-Token';
-	const TOKEN_PIPEJUMP_NAME     = 'X-Pipejump-Auth';
-
 	/** @var string */
 	private $token;
-
-	/** @var \GuzzleHttp\Client */
-	private $guzzle;
-
-	/** @var Response */
-	protected $lastResponse;
 
 	/**
 	 * @param string $token
 	 */
 	public function __construct($token)
 	{
-		$this->token  = $token;
-		$this->client = $this;
-		$this->setSubResources([
-			Account::class,
-			Sources::class,
-		]);
+		$this->token = $token;
 	}
 
 	/** {@inheritdoc} */
-	protected function getEndpoint()
-	{
-		throw new \LogicException('Cannot call client directly');
-	}
+	abstract protected function request($method, $uri, $options = []);
 
 	/**
 	 * @return array
 	 */
-	private function getAuthHeaders()
+	protected function getAuthHeaders()
 	{
 		return array(
 			self::TOKEN_PIPEJUMP_NAME     => $this->token,
@@ -56,36 +32,7 @@ class Client extends Resource
 		);
 	}
 
-	/**
-	 * @param string $method
-	 * @param string $url
-	 * @param array  $options
-	 *
-	 * @return \GuzzleHttp\Message\ResponseInterface
-	 */
-	protected function request($method, $url, $options = [])
-	{
-		if (null === $this->guzzle)
-		{
-			$this->guzzle = new \GuzzleHttp\Client();
-		}
-
-		$options  = array_merge_recursive([
-			'headers' => $this->getAuthHeaders(),
-		], $options);
-		$request  = $this->guzzle->createRequest($method, $url, $options);
-		$response = $this->guzzle->send($request);
-
-		return $response;
-	}
-
-	/**
-	 * @param string $uri
-	 * @param string $key
-	 * @param array  $options
-	 *
-	 * @return array|bool
-	 */
+	/** {@inheritdoc} */
 	public function get($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('GET', $this->getUri($uri), $options);
@@ -94,13 +41,7 @@ class Client extends Resource
 		return $decoded;
 	}
 
-	/**
-	 * @param string $uri
-	 * @param string $key
-	 * @param array  $options
-	 *
-	 * @return array|bool
-	 */
+	/** {@inheritdoc} */
 	public function post($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('POST', $this->getUri($uri), $options);
@@ -109,13 +50,7 @@ class Client extends Resource
 		return $decoded;
 	}
 
-	/**
-	 * @param string $uri
-	 * @param string $key
-	 * @param array  $options
-	 *
-	 * @return array|bool
-	 */
+	/** {@inheritdoc} */
 	public function put($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('PUT', $this->getUri($uri), $options);
@@ -124,13 +59,7 @@ class Client extends Resource
 		return $decoded;
 	}
 
-	/**
-	 * @param string $uri
-	 * @param string $key
-	 * @param array  $options
-	 *
-	 * @return array|bool
-	 */
+	/** {@inheritdoc} */
 	public function delete($uri, $key = null, array $options = [])
 	{
 		$response = $this->request('DELETE', $this->getUri($uri), $options);
@@ -140,14 +69,14 @@ class Client extends Resource
 	}
 
 	/**
-	 * @param Response $response
-	 * @param string   $key
+	 * @param ResponseInterface $response
+	 * @param string            $key
 	 *
-	 * @throws Exception\RestException
+	 * @throws RestException
 	 * @throws \InvalidArgumentException when key is not found in response data
 	 * @return array|bool
 	 */
-	private function processResponse(Response $response, $key = null)
+	private function processResponse(ResponseInterface $response, $key = null)
 	{
 		$status = $response->getStatusCode();
 		if (204 === $status)

@@ -2,12 +2,12 @@
 
 namespace prgTW\BaseCRM\Tests;
 
-use prgTW\BaseCRM\Client;
+use prgTW\BaseCRM\BaseCrm;
 
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-	/** @var Client */
-	protected $client;
+	/** @var BaseCrm */
+	protected $baseCrm;
 
 	/**
 	 * @return string
@@ -19,6 +19,6 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->client = new \prgTW\BaseCRM\Client(self::getToken());
+		$this->baseCrm = new BaseCrm(self::getToken());
 	}
 }

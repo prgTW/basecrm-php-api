@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
-use prgTW\BaseCRM\Client;
+use prgTW\BaseCRM\Client\ClientInterface;
 use prgTW\BaseCRM\Service\ResourceCollection;
 
 abstract class ListResource extends Resource implements \IteratorAggregate, \Countable
@@ -12,7 +12,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	protected $instanceName;
 
 	/** {@inheritdoc} */
-	public function __construct(Client $client, $uri)
+	public function __construct(ClientInterface $client, $uri)
 	{
 		parent::__construct($client, $uri);
 		$this->instanceName = Inflector::singularize(static::class);

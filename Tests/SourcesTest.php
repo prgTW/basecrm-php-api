@@ -9,7 +9,7 @@ class SourcesTest extends AbstractTest
 {
 	public function testSourcesGet()
 	{
-		$sources = $this->client->sources;
+		$sources = $this->baseCrm->sources;
 		$this->assertInstanceOf(Sources::class, $sources);
 		foreach ($sources as $source)
 		{

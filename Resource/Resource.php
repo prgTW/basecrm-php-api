@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
-use prgTW\BaseCRM\Client;
+use prgTW\BaseCRM\Client\ClientInterface;
 
 abstract class Resource
 {
@@ -20,7 +20,7 @@ abstract class Resource
 	/** @var array */
 	protected $rawData = null;
 
-	/** @var Client */
+	/** @var ClientInterface */
 	protected $client;
 
 	/** @var \Resource[] */
@@ -30,11 +30,11 @@ abstract class Resource
 	protected $uri;
 
 	/**
-	 * @param Client $client
+	 * @param ClientInterface $client
 	 * @param string $uri
 	 * @param array  $data
 	 */
-	public function __construct(Client $client, $uri, array $data = [])
+	public function __construct(ClientInterface $client, $uri, array $data = [])
 	{
 		$this->client = $client;
 		$this->uri    = $uri;
