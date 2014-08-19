@@ -13,7 +13,7 @@ abstract class Client implements ClientInterface
 	/**
 	 * @param string $token
 	 */
-	public function __construct($token)
+	public function __construct($token = '')
 	{
 		$this->token = $token;
 	}

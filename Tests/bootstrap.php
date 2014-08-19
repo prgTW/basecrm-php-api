@@ -11,9 +11,3 @@ call_user_func(function () {
 	$loader->add('prgTW\\BaseCRM', __DIR__ . '/../');
 });
 
-$token = getenv('BASECRM_TOKEN');
-if (empty($token))
-{
-	echo sprintf('BASECRM_TOKEN environmental variable must be set');
-	exit;
-}
