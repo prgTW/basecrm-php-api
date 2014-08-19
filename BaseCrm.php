@@ -9,8 +9,8 @@ use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Sources;
 
 /**
- * @property Account account
- * @property Sources sources
+ * @method Account getAccount()
+ * @method Sources getSources()
  */
 class BaseCrm extends Resource
 {

@@ -23,7 +23,7 @@ class SourcesTest extends AbstractTest
 			])
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
-		$sources = $baseCrm->sources;
+		$sources = $baseCrm->getSources();
 		$this->assertInstanceOf(Sources::class, $sources);
 		$this->assertEquals(3, count($sources));
 		/** @var Source $source */

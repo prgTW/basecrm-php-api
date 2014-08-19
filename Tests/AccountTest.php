@@ -24,7 +24,7 @@ class AccountTest extends AbstractTest
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
 
-		$account = $baseCrm->account;
+		$account = $baseCrm->getAccount();
 		$this->assertInstanceOf(Account::class, $account);
 		$this->assertEquals('abrakadabra', $account->getName());
 	}
@@ -43,7 +43,7 @@ class AccountTest extends AbstractTest
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
 
-		$account = $baseCrm->account;
+		$account = $baseCrm->getAccount();
 		$this->assertEquals(Currency::EUR(), $account->getCurrency());
 		$account->setCurrency(Currency::PLN());
 

@@ -83,7 +83,9 @@ abstract class Resource
 		{
 			if (false === is_subclass_of($resourceClassName, Resource::class))
 			{
+				//@codeCoverageIgnoreStart
 				throw new \InvalidArgumentException(sprintf('Class %s is not an instance of %s', $resourceClassName, Resource::class));
+				//@codeCoverageIgnoreEnd
 			}
 			$resourceName = $this->getResourceName($resourceClassName);
 			$uri          = ltrim(sprintf('%s/%s', $this->uri, $resourceName), '/');
@@ -94,19 +96,31 @@ abstract class Resource
 	}
 
 	/**
-	 * @param string $key
+	 * @param $method
+	 * @param $arguments
 	 *
-	 * @return mixed
+	 * @return Resource|\Resource[]
+	 * @throws \BadMethodCallException
 	 */
-	public function __get($key)
+	public function __call($method, $arguments)
 	{
-		$subResource = $this->getSubResources($key);
-		if (null !== $subResource)
+		if ('get' !== substr($method, 0, 3))
 		{
-			return $subResource;
+			//@codeCoverageIgnoreStart
+			throw new \BadMethodCallException('Unknown resource');
+			//@codeCoverageIgnoreEnd
 		}
 
-		return $this->$key;
+		$key         = lcfirst(substr($method, 3));
+		$subResource = $this->getSubResources($key);
+		if (null == $subResource)
+		{
+			//@codeCoverageIgnoreStart
+			throw new \BadMethodCallException(sprintf('Resource "%s" not found', $key));
+			//@codeCoverageIgnoreEnd
+		}
+
+		return $subResource;
 	}
 
 	/**
