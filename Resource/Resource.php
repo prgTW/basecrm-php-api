@@ -31,8 +31,8 @@ abstract class Resource
 
 	/**
 	 * @param ClientInterface $client
-	 * @param string $uri
-	 * @param array  $data
+	 * @param string          $uri
+	 * @param array           $data
 	 */
 	public function __construct(ClientInterface $client, $uri, array $data = [])
 	{
@@ -117,7 +117,8 @@ abstract class Resource
 	protected function getResourceName($resourceClassName = null)
 	{
 		$name = null === $resourceClassName ? static::class : $resourceClassName;
-		$name = array_pop(explode('\\', $name));
+		$name = explode('\\', $name);
+		$name = end($name);
 
 		return Inflector::tableize($name);
 	}
