@@ -4,7 +4,6 @@ namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
 use prgTW\BaseCRM\Client;
-use prgTW\BaseCRM\Iterator\ResourceIterator;
 use prgTW\BaseCRM\Service\ResourceCollection;
 
 abstract class ListResource extends Resource implements \IteratorAggregate, \Countable
@@ -59,19 +58,18 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	/** @{inheritdoc} */
 	public function count()
 	{
-		$page = $this->get();
+		$collection = $this->get();
 
-		return $page ? count($page->getItems()) : 0;
+		return $collection->count();
 	}
 
 	/**
-	 * @return ResourceIterator
+	 * @return ResourceCollection
 	 */
 	public function getIterator()
 	{
-		$resources = $this->get();
-		$items     = $resources->getItems();
+		$collection = $this->get();
 
-		return new ResourceIterator($items);
+		return $collection;
 	}
 }

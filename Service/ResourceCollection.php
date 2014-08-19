@@ -2,9 +2,7 @@
 
 namespace prgTW\BaseCRM\Service;
 
-use prgTW\BaseCRM\Iterator\ResourceIterator;
-
-class ResourceCollection implements \ArrayAccess, \IteratorAggregate
+class ResourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
 	/** @var Resource[] */
 	protected $items;
@@ -49,11 +47,43 @@ class ResourceCollection implements \ArrayAccess, \IteratorAggregate
 		unset($this->items[$offset]);
 	}
 
-	/** {@inheritdoc} */
-	public function getIterator()
+	/**
+	 * @return Resource|null
+	 */
+	public function current()
 	{
-		$items = $this->getItems();
+		return current($this->items);
+	}
 
-		return new ResourceIterator($items);
+	/**
+	 * @return Resource|null
+	 */
+	public function next()
+	{
+		return next($this->items);
+	}
+
+	/** {@inheritdoc} */
+	public function key()
+	{
+		return key($this->items);
+	}
+
+	/** {@inheritdoc} */
+	public function valid()
+	{
+		return null !== key($this->items);
+	}
+
+	/** {@inheritdoc} */
+	public function rewind()
+	{
+		reset($this->items);
+	}
+
+	/** @{inheritdoc} */
+	public function count()
+	{
+		return count($this->items);
 	}
 }

@@ -7,7 +7,7 @@ use prgTW\BaseCRM\Service\Rest\Sources;
 
 class SourcesTest extends AbstractTest
 {
-	public function testAccountGet()
+	public function testSourcesGet()
 	{
 		$sources = $this->client->sources;
 		$this->assertInstanceOf(Sources::class, $sources);
