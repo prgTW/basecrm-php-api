@@ -2,7 +2,7 @@
 
 namespace prgTW\BaseCRM\Tests;
 
-use prgTW\BaseCRM\Service\Rest\Account;
+use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Utils\Currency;
 
 class AccountTest extends AbstractTest

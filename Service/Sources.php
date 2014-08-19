@@ -1,6 +1,6 @@
 <?php
 
-namespace prgTW\BaseCRM\Service\Rest;
+namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\ListResource;
 

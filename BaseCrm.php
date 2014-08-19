@@ -4,8 +4,8 @@ namespace prgTW\BaseCRM;
 
 use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
-use prgTW\BaseCRM\Service\Rest\Account;
-use prgTW\BaseCRM\Service\Rest\Sources;
+use prgTW\BaseCRM\Service\Account;
+use prgTW\BaseCRM\Service\Sources;
 
 /**
  * @property Account account

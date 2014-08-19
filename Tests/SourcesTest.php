@@ -2,8 +2,8 @@
 
 namespace prgTW\BaseCRM\Tests;
 
-use prgTW\BaseCRM\Service\Rest\Source;
-use prgTW\BaseCRM\Service\Rest\Sources;
+use prgTW\BaseCRM\Service\Source;
+use prgTW\BaseCRM\Service\Sources;
 
 class SourcesTest extends AbstractTest
 {
