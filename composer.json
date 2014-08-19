@@ -1,5 +1,5 @@
 {
-	"name": "prgtw/basecrm-api",
+	"name": "prgtw/basecrm-php-api",
 	"description": "BaseCRM API for PHP",
 	"license": "MIT",
 	"authors": [
@@ -23,5 +23,5 @@
 			"prgTW\\BaseCRM": "./"
 		}
 	},
-	"target-dir": "prgtw/basecrm-api"
+	"target-dir": "prgtw/basecrm-php-api"
 }
