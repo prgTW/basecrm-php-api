@@ -1,4 +1,4 @@
-basecrm-php-api
+BaseCRM API for PHP
 =============
 
 [![Build Status](https://travis-ci.org/prgTW/basecrm-php-api.svg?branch=master)](https://travis-ci.org/prgTW/basecrm-php-api)
