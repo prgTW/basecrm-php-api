@@ -33,6 +33,8 @@ class BaseCrm extends Resource
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{
+		//@codeCoverageIgnoreStart
 		throw new \LogicException('Cannot call baseCrm directly');
+		//@codeCoverageIgnoreEnd
 	}
 }
