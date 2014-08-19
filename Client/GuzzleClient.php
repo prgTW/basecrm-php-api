@@ -4,7 +4,6 @@ namespace prgTW\BaseCRM\Client;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Message\ResponseInterface;
-use prgTW\BaseCRM\Exception;
 
 class GuzzleClient extends Client
 {
