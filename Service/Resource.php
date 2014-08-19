@@ -2,8 +2,8 @@
 
 namespace prgTW\BaseCRM\Service;
 
+use Doctrine\Common\Inflector\Inflector;
 use prgTW\BaseCRM\Client;
-use prgTW\BaseCRM\Utils\Inflector;
 
 abstract class Resource
 {
@@ -15,7 +15,7 @@ abstract class Resource
 	const ENDPOINT_SALES  = 'https://sales.futuresimple.com';
 	const ENDPOINT_TAGS   = 'https://tags.futuresimple.com';
 
-	const PREFIX  = 'api/v1';
+	const PREFIX = 'api/v1';
 
 	/** @var Client */
 	protected $client;
@@ -40,9 +40,12 @@ abstract class Resource
 		throw new \LogicException('This method must be implemented in deriving class');
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function getFullUri()
 	{
-		return sprintf('%s/%s/%s', rtrim(static::getEndpoint(), '/'), static::PREFIX, ltrim($this->uri, '/'));
+		return sprintf('%s/%s/%s', static::getEndpoint(), static::PREFIX, $this->uri);
 	}
 
 	/**
@@ -61,18 +64,22 @@ abstract class Resource
 	}
 
 	/**
-	 * @param string[] $resourceNames
+	 * @param string[] $resourceClassNames
+	 *
+	 * @throws \InvalidArgumentException when class name is not a Resource
 	 */
-	protected function setSubResources(array $resourceNames)
+	protected function setSubResources(array $resourceClassNames)
 	{
-		$namespace = substr(self::class, 0, strrpos(self::class, '\\'));
-		foreach ($resourceNames as $resourceName)
+		foreach ($resourceClassNames as $resourceClassName)
 		{
-			$className                         = ucfirst(Inflector::camelize($resourceName));
-			$fqn                               = sprintf('%s\\Rest\\%s', $namespace, $className);
-			$uri                               = sprintf('%s/%s', $this->uri, Inflector::underscore($className));
-			$class                             = new $fqn($this->client, $uri);
-			$this->subResources[$resourceName] = $class;
+			if (false === is_subclass_of($resourceClassName, Resource::class))
+			{
+				throw new \InvalidArgumentException(sprintf('Class %s is not an instance of %s', $resourceClassName, Resource::class));
+			}
+			$className                      = lcfirst(array_pop(explode('\\', $resourceClassName)));
+			$uri                            = ltrim(sprintf('%s/%s', $this->uri, Inflector::tableize($className)), '/');
+			$class                          = new $resourceClassName($this->client, $uri);
+			$this->subResources[$className] = $class;
 		}
 	}
 

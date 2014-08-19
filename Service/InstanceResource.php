@@ -2,7 +2,7 @@
 
 namespace prgTW\BaseCRM\Service;
 
-use prgTW\BaseCRM\Utils\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 
 class InstanceResource extends Resource
 {
@@ -25,7 +25,7 @@ class InstanceResource extends Resource
 	{
 		$uri      = $this->getFullUri();
 		$data     = $this->dehydrate();
-		$response = $this->client->post($uri, [
+		$response = $this->client->put($uri, [
 			'query' => $data,
 		]);
 		$this->hydrate($response);
@@ -38,7 +38,7 @@ class InstanceResource extends Resource
 	 */
 	protected function hydrate(array $data)
 	{
-		$key = Inflector::underscore(substr(static::class, strrpos(static::class, '\\') + 1));
+		$key = Inflector::tableize(substr(static::class, strrpos(static::class, '\\') + 1));
 		if (false === array_key_exists($key, $data))
 		{
 			return;
@@ -63,13 +63,13 @@ class InstanceResource extends Resource
 	 */
 	protected function dehydrate()
 	{
-		$domain = $key = Inflector::underscore(substr(static::class, strrpos(static::class, '\\') + 1));;
+		$domain = $key = Inflector::tableize(substr(static::class, strrpos(static::class, '\\') + 1));;
 		$vars = array_diff_key(get_class_vars(static::class), get_class_vars(get_parent_class($this)));
 
 		$data = [$domain => []];
 		foreach (array_keys($vars) as $key)
 		{
-			$data[$domain][Inflector::underscore($key)] = $this->$key;
+			$data[$domain][Inflector::tableize($key)] = $this->$key;
 		}
 
 		$this->postDehydrate($data);

@@ -32,7 +32,7 @@ class Client extends Resource
 		$this->token  = $token;
 		$this->client = $this;
 		$this->setSubResources([
-			'account',
+			Account::class,
 		]);
 	}
 
