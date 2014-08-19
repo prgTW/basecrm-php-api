@@ -10,12 +10,16 @@ abstract class Client implements ClientInterface
 	/** @var string */
 	private $token;
 
+	/** @var ResponseInterface */
+	protected $lastResponse;
+
 	/**
 	 * @param string $token
 	 */
 	public function __construct($token = '')
 	{
-		$this->token = $token;
+		$this->token        = $token;
+		$this->lastResponse = null;
 	}
 
 	/** {@inheritdoc} */
