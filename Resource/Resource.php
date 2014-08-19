@@ -113,7 +113,7 @@ abstract class Resource
 
 		$key         = lcfirst(substr($method, 3));
 		$subResource = $this->getSubResources($key);
-		if (null == $subResource)
+		if (null === $subResource)
 		{
 			//@codeCoverageIgnoreStart
 			throw new \BadMethodCallException(sprintf('Resource "%s" not found', $key));
