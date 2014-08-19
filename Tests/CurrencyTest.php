@@ -27,6 +27,7 @@ class CurrencyTest extends AbstractTest
 	 */
 	public function testMapping($value, $abbr, $name)
 	{
+		$this->assertEquals($name, Currency::$abbr()->getName());
 		$this->assertEquals($value, (new Currency($value))->getValue());
 		$this->assertEquals($value, Currency::$abbr()->getValue());
 		$this->assertEquals($value, Currency::fromName($name)->getValue());
