@@ -4,7 +4,6 @@ namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
 use prgTW\BaseCRM\Client\ClientInterface;
-use prgTW\BaseCRM\Service\ResourceCollection;
 
 abstract class ListResource extends Resource implements \IteratorAggregate, \Countable
 {

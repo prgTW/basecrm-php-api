@@ -1,6 +1,6 @@
 <?php
 
-namespace prgTW\BaseCRM\Service;
+namespace prgTW\BaseCRM\Resource;
 
 class ResourceCollection implements \ArrayAccess, \Iterator, \Countable
 {
