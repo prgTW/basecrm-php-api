@@ -4,6 +4,7 @@ namespace prgTW\BaseCRM\Client;
 
 use GuzzleHttp\Message\ResponseInterface;
 use prgTW\BaseCRM\Exception\RestException;
+use prgTW\BaseCRM\Utils\Convert;
 
 abstract class Client implements ClientInterface
 {
@@ -89,6 +90,7 @@ abstract class Client implements ClientInterface
 		}
 
 		$decoded = $response->json();
+		$decoded = Convert::objectToArray($decoded);
 
 		if (200 <= $status && 300 > $status)
 		{

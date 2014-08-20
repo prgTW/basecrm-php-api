@@ -18,14 +18,15 @@ class AccountTest extends AbstractTest
 			->with(sprintf('%s/%s/account', Resource::ENDPOINT_SALES, Resource::PREFIX), 'account')
 			->andReturn([
 				'id'            => 123,
-				'name'          => 'abrakadabra',
-				'currency_name' => Currency::getNames()[Currency::EUR],
+				'name'          => 'myaccount',
+				'timezone'      => 'UTC',
+				'currency_name' => 'US Dollar'
 			])
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
 
 		$account = $baseCrm->getAccount();
-		$this->assertEquals('abrakadabra', $account->getName());
+		$this->assertEquals('myaccount', $account->getName());
 	}
 
 	public function testCurrencyAlteration()
@@ -36,14 +37,15 @@ class AccountTest extends AbstractTest
 			->with(sprintf('%s/%s/account', Resource::ENDPOINT_SALES, Resource::PREFIX), 'account')
 			->andReturn([
 				'id'            => 123,
-				'name'          => 'abrakadabra',
-				'currency_name' => Currency::getNames()[Currency::EUR],
+				'name'          => 'myaccount',
+				'timezone'      => 'UTC',
+				'currency_name' => 'US Dollar'
 			])
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
 
 		$account = $baseCrm->getAccount();
-		$this->assertEquals(Currency::EUR(), $account->getCurrency());
+		$this->assertEquals(Currency::USD(), $account->getCurrency());
 		$account->setCurrency(Currency::PLN());
 
 		$client
@@ -53,18 +55,20 @@ class AccountTest extends AbstractTest
 				'query' => [
 					'account' => [
 						'id'          => 123,
-						'name'        => 'abrakadabra',
+						'name'        => 'myaccount',
 						'currency_id' => Currency::PLN,
-						'timezone'    => null,
+						'timezone'    => 'UTC',
 					]
 				],
 			])
 			->andReturn([
 				'id'            => 123,
-				'name'          => 'abrakadabra',
-				'currency_name' => Currency::getNames()[Currency::PLN],
+				'name'          => 'myaccount',
+				'currency_name' => Currency::PLN()->getName(),
+				'timezone'    => 'UTC',
 			]);
 
 		$account->save();
+		$this->assertEquals(Currency::PLN()->getName(), $account->getCurrency()->getName());
 	}
 }

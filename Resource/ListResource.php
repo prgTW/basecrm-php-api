@@ -3,8 +3,7 @@
 namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
-use prgTW\BaseCRM\Client\ClientInterface;
-use prgTW\BaseCRM\Utils\Convert;
+use prgTW\BaseCRM\Client\Client;
 
 abstract class ListResource extends Resource implements \IteratorAggregate, \Countable
 {
@@ -12,7 +11,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	protected $instanceName;
 
 	/** {@inheritdoc} */
-	public function __construct(ClientInterface $client, $uri)
+	public function __construct(Client $client, $uri)
 	{
 		parent::__construct($client, $uri);
 		$this->instanceName = Inflector::singularize(static::class);
@@ -26,8 +25,6 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 		$singleResourceName = Inflector::singularize($this->getResourceName());
 		$uri                = $this->getFullUri();
 		$data               = $this->client->get($uri);
-
-		$data = Convert::objectToArray($data);
 
 		foreach ($data as $key => $resourceData)
 		{

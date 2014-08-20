@@ -17,9 +17,24 @@ class SourcesTest extends AbstractTest
 			->twice()
 			->with(sprintf('%s/%s/sources', Resource::ENDPOINT_SALES, Resource::PREFIX))
 			->andReturn([
-				['source' => ['id' => 1, 'name' => 'test']],
-				['source' => ['id' => 2, 'name' => 'test']],
-				['source' => ['id' => 3, 'name' => 'test']],
+				[
+					'source' => [
+						'name' => 'test',
+						'id' => 371
+					]
+				],
+				[
+					'source' => [
+						'name' => 'test',
+						'id' => 372
+					]
+				],
+				[
+					'source' => [
+						'name' => 'test',
+						'id' => 373
+					]
+				]
 			])
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);

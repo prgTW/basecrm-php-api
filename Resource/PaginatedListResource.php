@@ -3,7 +3,6 @@
 namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
-use prgTW\BaseCRM\Utils\Convert;
 
 abstract class PaginatedListResource extends ListResource
 {
@@ -28,7 +27,6 @@ abstract class PaginatedListResource extends ListResource
 		}
 
 		$data = $this->client->get($uri, null, $query);
-		$data = Convert::objectToArray($data);
 
 		foreach ($data['items'] as $key => $resourceData)
 		{

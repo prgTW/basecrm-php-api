@@ -2,7 +2,7 @@
 
 namespace prgTW\BaseCRM;
 
-use prgTW\BaseCRM\Client\ClientInterface;
+use prgTW\BaseCRM\Client\Client;
 use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
@@ -20,10 +20,10 @@ class BaseCrm extends Resource
 	protected $client;
 
 	/**
-	 * @param string          $token
-	 * @param ClientInterface $client
+	 * @param string $token
+	 * @param Client $client
 	 */
-	public function __construct($token, ClientInterface $client = null)
+	public function __construct($token, Client $client = null)
 	{
 		$this->client = null !== $client ? $client : new GuzzleClient($token);
 		$this->setSubResources([
