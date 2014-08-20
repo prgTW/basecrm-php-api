@@ -1,7 +1,8 @@
 <?php
 
-namespace prgTW\BaseCRM\Tests;
+namespace prgTW\BaseCRM\Tests\Utils;
 
+use prgTW\BaseCRM\Tests\AbstractTest;
 use prgTW\BaseCRM\Utils\Currency;
 
 class CurrencyTest extends AbstractTest

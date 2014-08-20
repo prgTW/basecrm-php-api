@@ -1,12 +1,13 @@
 <?php
 
-namespace prgTW\BaseCRM\Tests;
+namespace prgTW\BaseCRM\Tests\Service;
 
 use prgTW\BaseCRM\BaseCrm;
 use prgTW\BaseCRM\Client\Client;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Source;
 use prgTW\BaseCRM\Service\Sources;
+use prgTW\BaseCRM\Tests\AbstractTest;
 
 class SourcesTest extends AbstractTest
 {

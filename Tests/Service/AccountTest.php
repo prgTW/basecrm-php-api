@@ -1,11 +1,12 @@
 <?php
 
-namespace prgTW\BaseCRM\Tests;
+namespace prgTW\BaseCRM\Tests\Service;
 
 use prgTW\BaseCRM\BaseCrm;
 use prgTW\BaseCRM\Client\Client;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
+use prgTW\BaseCRM\Tests\AbstractTest;
 use prgTW\BaseCRM\Utils\Currency;
 
 class AccountTest extends AbstractTest
