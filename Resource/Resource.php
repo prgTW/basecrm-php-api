@@ -4,6 +4,7 @@ namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
 use prgTW\BaseCRM\Client\ClientInterface;
+use prgTW\BaseCRM\Exception\ResourceException;
 
 abstract class Resource
 {
@@ -158,16 +159,25 @@ abstract class Resource
 	}
 
 	/**
+	 * @throws ResourceException when dehydration has been stopped
 	 * @return array
 	 */
 	protected function dehydrate()
 	{
-		$vars = array_diff_key(get_class_vars(static::class), get_class_vars(get_parent_class($this)));
-
-		$data = [];
-		foreach (array_keys($vars) as $key)
+		$data = $this->preDehydrate();
+		if (false === $data)
 		{
-			$data[Inflector::tableize($key)] = $this->$key;
+			throw new ResourceException('Dehydration has been stopped');
+		}
+
+		if (false === is_array($data))
+		{
+			$vars = array_diff_key(get_class_vars(static::class), get_class_vars(get_parent_class($this)));
+			$data = [];
+			foreach (array_keys($vars) as $key)
+			{
+				$data[Inflector::tableize($key)] = $this->$key;
+			}
 		}
 
 		$this->postDehydrate($data);
@@ -181,6 +191,16 @@ abstract class Resource
 	 * @codeCoverageIgnore
 	 */
 	protected function postHydrate(array $data)
+	{
+
+	}
+
+	/**
+	 * @return array|bool False: stop dehydration, array: deserialized data
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function preDehydrate()
 	{
 
 	}
