@@ -20,19 +20,19 @@ class SourcesTest extends AbstractTest
 				[
 					'source' => [
 						'name' => 'test',
-						'id' => 371
+						'id'   => 371
 					]
 				],
 				[
 					'source' => [
 						'name' => 'test',
-						'id' => 372
+						'id'   => 372
 					]
 				],
 				[
 					'source' => [
 						'name' => 'test',
-						'id' => 373
+						'id'   => 373
 					]
 				]
 			])

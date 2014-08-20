@@ -65,7 +65,7 @@ class AccountTest extends AbstractTest
 				'id'            => 123,
 				'name'          => 'myaccount',
 				'currency_name' => Currency::PLN()->getName(),
-				'timezone'    => 'UTC',
+				'timezone'      => 'UTC',
 			]);
 
 		$account->save();
