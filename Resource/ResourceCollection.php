@@ -13,6 +13,7 @@ class ResourceCollection implements \ArrayAccess, \Iterator, \Countable
 	public function __construct(array $resources)
 	{
 		$this->items = $resources;
+		$this->rewind();
 	}
 
 	/**

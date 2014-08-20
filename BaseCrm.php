@@ -6,11 +6,13 @@ use prgTW\BaseCRM\Client\ClientInterface;
 use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
+use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
 
 /**
  * @method Account getAccount()
  * @method Sources getSources()
+ * @method Leads getLeads()
  */
 class BaseCrm extends Resource
 {
@@ -27,6 +29,7 @@ class BaseCrm extends Resource
 		$this->setSubResources([
 			Account::class,
 			Sources::class,
+			Leads::class,
 		]);
 	}
 
