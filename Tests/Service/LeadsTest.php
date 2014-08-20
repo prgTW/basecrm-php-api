@@ -78,6 +78,7 @@ class LeadsTest extends AbstractTest
 		$baseCrm = new BaseCrm('', $client);
 		$leads   = $baseCrm->getLeads();
 		$i = 1;
+		/** @var Lead $lead */
 		foreach ($leads as $lead)
 		{
 			$this->assertInstanceOf(Lead::class, $lead);
