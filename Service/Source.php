@@ -21,10 +21,10 @@ class Source extends InstanceResource
 	/** @var int */
 	protected $dealsCount;
 
-	/** @var \DateTime */
+	/** @var string */
 	protected $createdAt;
 
-	/** @var \DateTime */
+	/** @var string */
 	protected $updatedAt;
 
 	/** {@inheritdoc} */
