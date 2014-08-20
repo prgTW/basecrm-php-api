@@ -11,7 +11,7 @@ use prgTW\BaseCRM\Tests\AbstractTest;
 
 class SourcesTest extends AbstractTest
 {
-	public function testSourcesGet()
+	public function testGet()
 	{
 		$client  = \Mockery::mock(Client::class)
 			->shouldReceive('get')
@@ -32,6 +32,24 @@ class SourcesTest extends AbstractTest
 		{
 			$this->assertInstanceOf(Source::class, $source);
 			$this->assertEquals('test', $source->getName());
+
+			$client
+				->shouldReceive('put')
+				->once()
+				->with(sprintf('%s/%s/sources/%d', Resource::ENDPOINT_SALES, Resource::PREFIX, $source->getId()), 'source', [
+					'query' => [
+						'source' => [
+							'name' => 'test',
+						],
+					],
+				])
+				->andReturn([
+					'source' => [
+						'id' => $source->getId(),
+						'name' => 'test',
+					],
+				]);
+			$source->save();
 		}
 	}
 }

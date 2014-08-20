@@ -11,7 +11,7 @@ use prgTW\BaseCRM\Utils\Currency;
 
 class AccountTest extends AbstractTest
 {
-	public function testAccountGet()
+	public function testGet()
 	{
 		$client  = \Mockery::mock(Client::class)
 			->shouldReceive('get')
