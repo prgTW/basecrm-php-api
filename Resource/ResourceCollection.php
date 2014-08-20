@@ -72,7 +72,7 @@ class ResourceCollection implements \ArrayAccess, \Iterator, \Countable
 	/** {@inheritdoc} */
 	public function valid()
 	{
-		return null !== key($this->items);
+		return null !== $this->key();
 	}
 
 	/** {@inheritdoc} */

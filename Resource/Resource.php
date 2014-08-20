@@ -167,7 +167,9 @@ abstract class Resource
 		$data = $this->preDehydrate();
 		if (false === $data)
 		{
+			//@codeCoverageIgnoreStart
 			throw new ResourceException('Dehydration has been stopped');
+			//@codeCoverageIgnoreEnd
 		}
 
 		if (false === is_array($data))

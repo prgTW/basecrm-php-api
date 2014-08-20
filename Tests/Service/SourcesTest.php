@@ -26,7 +26,7 @@ class SourcesTest extends AbstractTest
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		$this->assertInstanceOf(Sources::class, $sources);
-		$this->assertEquals(3, count($sources));
+		$this->assertCount(3, $sources);
 		/** @var Source $source */
 		foreach ($sources as $source)
 		{
@@ -45,7 +45,7 @@ class SourcesTest extends AbstractTest
 				])
 				->andReturn([
 					'source' => [
-						'id' => $source->getId(),
+						'id'   => $source->getId(),
 						'name' => 'test',
 					],
 				]);
