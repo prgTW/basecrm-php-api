@@ -51,11 +51,13 @@ abstract class Resource
 	abstract protected function getEndpoint();
 
 	/**
+	 * @param string $suffix
+	 *
 	 * @return string
 	 */
-	protected function getFullUri()
+	protected function getFullUri($suffix = '')
 	{
-		return sprintf('%s/%s/%s', static::getEndpoint(), static::PREFIX, $this->uri);
+		return sprintf('%s/%s/%s%s', static::getEndpoint(), static::PREFIX, $this->uri, $suffix);
 	}
 
 	/**

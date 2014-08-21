@@ -39,7 +39,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	public function delete($id)
 	{
-		$uri    = sprintf('%s/%s', $this->uri, $id);
+		$uri    = $this->getFullUri(sprintf('/%d', $id));
 		$result = $this->transport->delete($uri);
 
 		return $result;
