@@ -2,8 +2,6 @@
 
 namespace prgTW\BaseCRM\Utils;
 
-use MyCLabs\Enum\Enum;
-
 /**
  * @method static Currency USD()
  * @method static Currency GBP()
@@ -17,7 +15,7 @@ use MyCLabs\Enum\Enum;
  * @method static Currency NZD()
  * @method static Currency INR()
  */
-class Currency extends Enum
+class Currency extends NamedEnum
 {
 	const USD = 1;
 	const GBP = 2;
@@ -44,37 +42,4 @@ class Currency extends Enum
 		self::NZD => 'New Zealand Dollar',
 		self::INR => 'Indian Rupee',
 	];
-
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return self::$names[$this->value];
-	}
-
-	/**
-	 * @param string $name
-	 *
-	 * @return Currency
-	 * @throws \InvalidArgumentException when invalid currency name given
-	 */
-	public static function fromName($name)
-	{
-		$key = array_search($name, self::$names);
-		if (false === $key)
-		{
-			throw new \InvalidArgumentException('Invalid currency name given');
-		}
-
-		return new self($key);
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getNames()
-	{
-		return static::$names;
-	}
 }
