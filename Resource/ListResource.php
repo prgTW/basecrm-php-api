@@ -80,7 +80,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 *
 	 * @return ResourceCollection
 	 */
-	public function all(array $query = [])
+	public function all($query = [])
 	{
 		$uri     = $this->getFullUri();
 		$options = [] === $query ? [] : ['query' => $query];
