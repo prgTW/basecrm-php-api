@@ -46,20 +46,20 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	}
 
 	/**
+	 * @param array $query
+	 *
 	 * @return ResourceCollection
 	 */
-	public function all()
+	public function all(array $query = [])
 	{
 		$singleResourceName = Inflector::singularize($this->getResourceName());
 		$uri                = $this->getFullUri();
-		$data               = $this->transport->get($uri);
+		$options            = [] === $query ? [] : ['query' => $query];
+		$data               = $this->transport->get($uri, null, $options);
 
-		foreach ($data as $key => $resourceData)
-		{
-			$data[$key] = $this->getObjectFromJson($resourceData[$singleResourceName]);
-		}
+		$data = $this->postAll($data);
 
-		return new ResourceCollection($data, $singleResourceName);
+		return $data;
 	}
 
 	/**
@@ -98,5 +98,22 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 		$collection = $this->all();
 
 		return $collection;
+	}
+
+	/**
+	 * @param array $data
+	 *
+	 * @return ResourceCollection
+	 */
+	protected function postAll(array $data)
+	{
+		$singleResourceName = Inflector::singularize($this->getResourceName());
+
+		foreach ($data as $key => $resourceData)
+		{
+			$data[$key] = $this->getObjectFromJson($resourceData[$singleResourceName]);
+		}
+
+		return new ResourceCollection($data, $singleResourceName);
 	}
 }

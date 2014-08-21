@@ -14,19 +14,21 @@ abstract class PaginatedListResource extends ListResource
 	 */
 	public function all($page = 1, $sortBy = null)
 	{
-		$singleResourceName = Inflector::singularize($this->getResourceName());
-		$uri                = $this->getFullUri();
-		$query              = [
-			'query' => [
-				'page' => $page,
-			],
+		$query = [
+			'page' => $page,
 		];
 		if (null !== $sortBy)
 		{
-			$query['query']['sort_by'] = $sortBy;
+			$query['sort_by'] = $sortBy;
 		}
 
-		$data = $this->transport->get($uri, null, $query);
+		return parent::all($query);
+	}
+
+	/** {@inheritdoc} */
+	protected function postAll(array $data)
+	{
+		$singleResourceName = Inflector::singularize($this->getResourceName());
 
 		foreach ($data['items'] as $key => $resourceData)
 		{
@@ -35,6 +37,7 @@ abstract class PaginatedListResource extends ListResource
 
 		return new Page($data, $singleResourceName);
 	}
+
 
 	/** {@inheritdoc} */
 	public function count()

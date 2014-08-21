@@ -73,6 +73,43 @@ class SourcesTest extends AbstractTest
 		}
 	}
 
+	public function testAllWithOther()
+	{
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('GET', sprintf('%s/%s/sources.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
+				'query' => [
+					'other' => 1,
+				]
+			]))
+			->andReturn($this->getResponse(200, '
+				[
+					{
+					"source": {
+						"name": "test",
+						"id": 1
+					}
+				},
+				{
+					"source": {
+						"name": "test",
+						"id": 2
+					}
+				},
+				{
+					"source": {
+						"name": "test",
+						"id": 3
+					}
+				}
+				]
+			'));
+		$baseCrm = new BaseCrm('', $client);
+		$baseCrm->getSources()->all(true);
+	}
+
 	public function testGet()
 	{
 		$client = \Mockery::mock(GuzzleClient::class);
