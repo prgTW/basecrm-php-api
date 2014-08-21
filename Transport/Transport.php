@@ -108,7 +108,7 @@ class Transport
 	private function processResponse(ResponseInterface $response, $key = null)
 	{
 		$status = $response->getStatusCode();
-		if (204 === $status)
+		if (204 == $status)
 		{
 			return true;
 		}
