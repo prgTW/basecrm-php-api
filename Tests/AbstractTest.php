@@ -23,8 +23,8 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 	{
 		$query = array_merge_recursive([
 			'headers' => [
-				Transport::TOKEN_FUTUERSIMPLE_NAME => '',
 				Transport::TOKEN_PIPEJUMP_NAME     => '',
+				Transport::TOKEN_FUTUERSIMPLE_NAME => '',
 			],
 		], $query);
 
