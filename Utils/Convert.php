@@ -25,21 +25,4 @@ class Convert
 			return $obj;
 		}
 	}
-
-	/**
-	 * @param mixed $array
-	 *
-	 * @return \StdClass
-	 */
-	public static function arrayToObject($array)
-	{
-		if (is_array($array))
-		{
-			return (object)array_map('self::arrayToObject', $array);
-		}
-		else
-		{
-			return $array;
-		}
-	}
 }

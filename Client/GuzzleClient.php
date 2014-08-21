@@ -5,6 +5,9 @@ namespace prgTW\BaseCRM\Client;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Message\ResponseInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class GuzzleClient extends GuzzleHttpClient implements ClientInterface
 {
 	/** @var \GuzzleHttp\Client */
