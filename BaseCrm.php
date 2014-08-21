@@ -7,12 +7,14 @@ use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
+use prgTW\BaseCRM\Service\Taggings;
 use prgTW\BaseCRM\Transport\Transport;
 
 /**
  * @method Account getAccount()
  * @method Sources getSources()
  * @method Leads getLeads()
+ * @method Taggings getTaggings()
  */
 class BaseCrm extends Resource
 {
@@ -30,6 +32,7 @@ class BaseCrm extends Resource
 			Account::class,
 			Sources::class,
 			Leads::class,
+			Taggings::class,
 		]);
 	}
 

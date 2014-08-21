@@ -7,6 +7,7 @@ use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
+use prgTW\BaseCRM\Service\Taggings;
 
 class BaseCrmTest extends AbstractTest
 {
@@ -16,6 +17,7 @@ class BaseCrmTest extends AbstractTest
 			'account'  => Account::class,
 			'sources'  => Sources::class,
 			'leads'    => Leads::class,
+			'taggings' => Taggings::class,
 		];
 		$baseCrm              = new BaseCrm('', \Mockery::mock(GuzzleClient::class));
 		$subResources         = $baseCrm->getSubResources();
