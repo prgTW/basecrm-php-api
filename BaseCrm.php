@@ -7,14 +7,14 @@ use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
-use prgTW\BaseCRM\Service\Taggings;
+use prgTW\BaseCRM\Service\Tags;
 use prgTW\BaseCRM\Transport\Transport;
 
 /**
  * @method Account getAccount()
  * @method Sources getSources()
  * @method Leads getLeads()
- * @method Taggings getTaggings()
+ * @method Tags getTaggings()
  */
 class BaseCrm extends Resource
 {
@@ -27,14 +27,21 @@ class BaseCrm extends Resource
 	 */
 	public function __construct($token, ClientInterface $client = null)
 	{
-		$this->transport = new Transport($token, $client);
+		$transport = new Transport($token, $client);
+		parent::__construct($transport, '');
+	}
+
+	/** {@inheritdoc} */
+	protected function init()
+	{
 		$this->setSubResources([
 			Account::class,
 			Sources::class,
 			Leads::class,
-			Taggings::class,
+			Tags::class,
 		]);
 	}
+
 
 	/** {@inheritdoc} */
 	protected function getEndpoint()

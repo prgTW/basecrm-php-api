@@ -29,12 +29,19 @@ abstract class Resource extends BaseResource
 		{
 			$this->hydrate($data);
 		}
+
+		$this->init();
 	}
 
 	/**
 	 * @return string
 	 */
 	abstract protected function getEndpoint();
+
+	protected function init()
+	{
+
+	}
 
 	/**
 	 * @param string $suffix
@@ -68,8 +75,9 @@ abstract class Resource extends BaseResource
 	 */
 	protected function setSubResources(array $resourceClassNames)
 	{
-		foreach ($resourceClassNames as $resourceClassName)
+		foreach ($resourceClassNames as $key => $value)
 		{
+			$resourceClassName = is_int($key) ? $value : $key;
 			if (false === is_subclass_of($resourceClassName, Resource::class))
 			{
 				//@codeCoverageIgnoreStart
@@ -78,7 +86,12 @@ abstract class Resource extends BaseResource
 			}
 			$resourceName = $this->getResourceName($resourceClassName);
 			$uri          = ltrim(sprintf('%s/%s', $this->uri, $resourceName), '/');
-			$class        = new $resourceClassName($this->transport, $uri);
+			if (false === is_int($key))
+			{
+				$uri = $value;
+			}
+
+			$class = new $resourceClassName($this->transport, $uri);
 
 			$this->subResources[lcfirst(Inflector::camelize($resourceName))] = $class;
 		}

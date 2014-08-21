@@ -2,7 +2,7 @@
 
 namespace prgTW\BaseCRM\Service;
 
-trait TaggingTrait
+trait TagTrait
 {
 	/** @var int */
 	protected $id;
@@ -51,21 +51,21 @@ trait TaggingTrait
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	public function getTagList()
 	{
-		return $this->tagList;
+		return explode(',', $this->tagList);
 	}
 
 	/**
-	 * @param string $tagList
+	 * @param array $tagList
 	 *
 	 * @return $this
 	 */
-	public function setTagList($tagList)
+	public function setTagList(array $tagList)
 	{
-		$this->tagList = $tagList;
+		$this->tagList = implode(',', $tagList);
 
 		return $this;
 	}
@@ -116,5 +116,11 @@ trait TaggingTrait
 	public function getPermissionsHolderId()
 	{
 		return $this->permissionsHolderId;
+	}
+
+	public function postDehydrate(array &$data)
+	{
+		unset($data['id']);
+		unset($data['permissions_holder_id']);
 	}
 }

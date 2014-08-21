@@ -118,12 +118,4 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 
 		return new ResourceCollection($data, $childResourceName);
 	}
-
-	/**
-	 * @return string
-	 */
-	protected function getChildResourceName()
-	{
-		return Inflector::singularize($this->getResourceName());
-	}
 }

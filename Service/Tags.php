@@ -2,10 +2,10 @@
 
 namespace prgTW\BaseCRM\Service;
 
+use prgTW\BaseCRM\Resource\ListResource;
 use prgTW\BaseCRM\Resource\Partial\CreateResource;
-use prgTW\BaseCRM\Resource\Resource;
 
-class Taggings extends Resource
+class Tags extends ListResource
 {
 	use CreateResource;
 

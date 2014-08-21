@@ -3,9 +3,9 @@
 namespace prgTW\BaseCRM\Service\Detached;
 
 use prgTW\BaseCRM\Resource\DetachedResource;
-use prgTW\BaseCRM\Service\TaggingTrait;
+use prgTW\BaseCRM\Service\TagTrait;
 
-class Tagging extends DetachedResource
+class Tag extends DetachedResource
 {
-	use TaggingTrait;
+	use TagTrait;
 }

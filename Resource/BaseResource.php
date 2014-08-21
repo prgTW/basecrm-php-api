@@ -25,13 +25,38 @@ abstract class BaseResource
 	 *
 	 * @return string
 	 */
-	public function getResourceName($resourceClassName = null)
+	protected function getClassNameOnly($resourceClassName = null)
 	{
 		$name = null === $resourceClassName ? static::class : $resourceClassName;
 		$name = explode('\\', $name);
 		$name = end($name);
 
+		return $name;
+	}
+
+	/**
+	 * @param string $resourceClassName Fully classified class name
+	 *
+	 * @return string
+	 */
+	public function getResourceName($resourceClassName = null)
+	{
+		$name = $this->getClassNameOnly($resourceClassName);
+
 		return Inflector::tableize($name);
+	}
+
+	/**
+	 * @param string $resourceClassName Fully classified class name
+	 *
+	 * @return string
+	 */
+	protected function getChildResourceName($resourceClassName = null)
+	{
+		$resourceName = $this->getResourceName($resourceClassName);
+		$singular     = Inflector::singularize($resourceName);
+
+		return $singular;
 	}
 
 	/**
