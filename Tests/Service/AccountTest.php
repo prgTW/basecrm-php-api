@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Tests\Service;
 
 use prgTW\BaseCRM\BaseCrm;
-use prgTW\BaseCRM\Client\Client;
+use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Tests\AbstractTest;
 use prgTW\BaseCRM\Utils\Currency;
@@ -12,16 +12,20 @@ class AccountTest extends AbstractTest
 {
 	public function testGet()
 	{
-		$client  = \Mockery::mock(Client::class)
-			->shouldReceive('get')
+		$client  = \Mockery::mock(GuzzleClient::class)
+			->shouldReceive('request')
 			->once()
-			->with(sprintf('%s/%s/account', Resource::ENDPOINT_SALES, Resource::PREFIX), 'account')
-			->andReturn([
-				'id'            => 123,
-				'name'          => 'myaccount',
-				'timezone'      => 'UTC',
-				'currency_name' => 'US Dollar'
-			])
+			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
+			->andReturn($this->getResponse(200, '
+				{
+					"account": {
+						"id": 123,
+						"name": "myaccount",
+						"timezone": "UTC",
+						"currency_name": "US Dollar"
+					}
+				}
+			'))
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
 
@@ -31,16 +35,20 @@ class AccountTest extends AbstractTest
 
 	public function testCurrencyAlteration()
 	{
-		$client  = \Mockery::mock(Client::class)
-			->shouldReceive('get')
+		$client  = \Mockery::mock(GuzzleClient::class)
+			->shouldReceive('request')
 			->once()
-			->with(sprintf('%s/%s/account', Resource::ENDPOINT_SALES, Resource::PREFIX), 'account')
-			->andReturn([
-				'id'            => 123,
-				'name'          => 'myaccount',
-				'timezone'      => 'UTC',
-				'currency_name' => 'US Dollar'
-			])
+			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
+			->andReturn($this->getResponse(200, '
+				{
+					"account": {
+						"id": 123,
+						"name": "myaccount",
+						"timezone": "UTC",
+						"currency_name": "US Dollar"
+					}
+				}
+			'))
 			->getMock();
 		$baseCrm = new BaseCrm('', $client);
 
@@ -49,9 +57,9 @@ class AccountTest extends AbstractTest
 		$account->setCurrency(Currency::PLN());
 
 		$client
-			->shouldReceive('put')
+			->shouldReceive('request')
 			->once()
-			->with(sprintf('%s/%s/account', Resource::ENDPOINT_SALES, Resource::PREFIX), 'account', [
+			->with('PUT', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
 				'query' => [
 					'account' => [
 						'id'          => 123,
@@ -60,13 +68,17 @@ class AccountTest extends AbstractTest
 						'timezone'    => 'UTC',
 					]
 				],
-			])
-			->andReturn([
-				'id'            => 123,
-				'name'          => 'myaccount',
-				'currency_name' => Currency::PLN()->getName(),
-				'timezone'      => 'UTC',
-			]);
+			]))
+			->andReturn($this->getResponse(200, '
+				{
+					"account": {
+						"id": 123,
+						"name": "myaccount",
+						"timezone": "UTC",
+						"currency_name": "Polish złoty"
+					}
+				}
+			'));
 
 		$account->save();
 		$this->assertEquals(Currency::PLN()->getName(), $account->getCurrency()->getName());

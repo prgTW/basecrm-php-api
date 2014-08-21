@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
-use prgTW\BaseCRM\Client\Client;
+use prgTW\BaseCRM\Transport\Transport;
 
 abstract class ListResource extends Resource implements \IteratorAggregate, \Countable
 {
@@ -11,20 +11,50 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	protected $instanceName;
 
 	/** {@inheritdoc} */
-	public function __construct(Client $client, $uri)
+	public function __construct(Transport $transport, $uri)
 	{
-		parent::__construct($client, $uri);
+		parent::__construct($transport, $uri);
 		$this->instanceName = Inflector::singularize(static::class);
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return InstanceResource
+	 */
+	public function get($id)
+	{
+		$uri = sprintf('%s/%s', $this->uri, $id);
+		/** @var InstanceResource $resource */
+		$resource = new $this->instanceName($this->transport, $uri);
+		$resource->get();
+
+		return $resource;
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool
+	 */
+	public function delete($id)
+	{
+		$uri = sprintf('%s/%s', $this->uri, $id);
+		/** @var InstanceResource $resource */
+		$resource = new $this->instanceName($this->transport, $uri);
+		$resource->get();
+
+		return $resource;
 	}
 
 	/**
 	 * @return ResourceCollection
 	 */
-	public function get()
+	public function all()
 	{
 		$singleResourceName = Inflector::singularize($this->getResourceName());
 		$uri                = $this->getFullUri();
-		$data               = $this->client->get($uri);
+		$data               = $this->transport->get($uri);
 
 		foreach ($data as $key => $resourceData)
 		{
@@ -51,13 +81,13 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 			$uri = $this->uri;
 		}
 
-		return new $this->instanceName($this->client, $uri, $params);
+		return new $this->instanceName($this->transport, $uri, $params);
 	}
 
 	/** {@inheritdoc} */
 	public function count()
 	{
-		$collection = $this->get();
+		$collection = $this->all();
 
 		return count($collection);
 	}
@@ -67,7 +97,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	public function getIterator()
 	{
-		$collection = $this->get();
+		$collection = $this->all();
 
 		return $collection;
 	}

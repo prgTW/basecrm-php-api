@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Tests\Resource;
 
 use prgTW\BaseCRM\BaseCrm;
-use prgTW\BaseCRM\Client\Client;
+use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
@@ -13,7 +13,7 @@ class ResourceTest extends AbstractTest
 {
 	public function testSubResources()
 	{
-		$baseCrm      = new BaseCrm('', \Mockery::mock(Client::class));
+		$baseCrm      = new BaseCrm('', \Mockery::mock(GuzzleClient::class));
 		$subResources = $baseCrm->getSubResources();
 		$this->assertEquals(3, count($subResources));
 		$this->assertEquals(['account', 'sources', 'leads'], array_keys($subResources));

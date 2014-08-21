@@ -12,7 +12,7 @@ abstract class PaginatedListResource extends ListResource
 	 *
 	 * @return Page
 	 */
-	public function get($page = 1, $sortBy = null)
+	public function all($page = 1, $sortBy = null)
 	{
 		$singleResourceName = Inflector::singularize($this->getResourceName());
 		$uri                = $this->getFullUri();
@@ -26,7 +26,7 @@ abstract class PaginatedListResource extends ListResource
 			$query['query']['sort_by'] = $sortBy;
 		}
 
-		$data = $this->client->get($uri, null, $query);
+		$data = $this->transport->get($uri, null, $query);
 
 		foreach ($data['items'] as $key => $resourceData)
 		{
@@ -50,6 +50,6 @@ abstract class PaginatedListResource extends ListResource
 	 */
 	public function getIterator($page = 1, $sortBy = null)
 	{
-		return new AutoPagingIterator([$this, 'get'], $page, $sortBy);
+		return new AutoPagingIterator([$this, 'all'], $page, $sortBy);
 	}
 }

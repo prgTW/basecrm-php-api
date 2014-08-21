@@ -5,13 +5,10 @@ namespace prgTW\BaseCRM\Client;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Message\ResponseInterface;
 
-class GuzzleClient extends Client
+class GuzzleClient extends GuzzleHttpClient implements ClientInterface
 {
 	/** @var \GuzzleHttp\Client */
 	private $guzzle;
-
-	/** @var ResponseInterface */
-	protected $lastResponse;
 
 	/**
 	 * @param string $method
@@ -20,16 +17,13 @@ class GuzzleClient extends Client
 	 *
 	 * @return ResponseInterface
 	 */
-	protected function request($method, $uri, $options = [])
+	public function request($method, $uri, array $options = [])
 	{
 		if (null === $this->guzzle)
 		{
 			$this->guzzle = new GuzzleHttpClient();
 		}
 
-		$options  = array_merge_recursive([
-			'headers' => $this->getAuthHeaders(),
-		], $options);
 		$request  = $this->guzzle->createRequest($method, $uri, $options);
 		$response = $this->guzzle->send($request);
 

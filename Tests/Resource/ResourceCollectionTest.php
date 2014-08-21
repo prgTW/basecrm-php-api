@@ -2,11 +2,11 @@
 
 namespace prgTW\BaseCRM\Tests\Resource;
 
-use prgTW\BaseCRM\Client\Client;
 use prgTW\BaseCRM\Resource\ResourceCollection;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Source;
 use prgTW\BaseCRM\Tests\AbstractTest;
+use prgTW\BaseCRM\Transport\Transport;
 
 class ResourceCollectionTest extends AbstractTest
 {
@@ -29,7 +29,7 @@ class ResourceCollectionTest extends AbstractTest
 		{
 			$this->assertTrue(isset($this->collection[$key]));
 			$this->assertInstanceOf(Account::class, $this->collection[$key]);
-			$this->collection[$key] = new Source(\Mockery::mock(Client::class), '');
+			$this->collection[$key] = new Source(\Mockery::mock(Transport::class), '');
 			$this->assertInstanceOf(Source::class, $this->collection[$key]);
 		}
 
@@ -53,7 +53,7 @@ class ResourceCollectionTest extends AbstractTest
 
 	protected function setUp()
 	{
-		$client           = \Mockery::mock(Client::class);
+		$client           = \Mockery::mock(Transport::class);
 		$this->resources  = [
 			new Account($client, ''),
 			new Account($client, ''),

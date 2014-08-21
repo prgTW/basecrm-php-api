@@ -3,8 +3,8 @@
 namespace prgTW\BaseCRM\Resource;
 
 use Doctrine\Common\Inflector\Inflector;
-use prgTW\BaseCRM\Client\Client;
 use prgTW\BaseCRM\Exception\ResourceException;
+use prgTW\BaseCRM\Transport\Transport;
 
 abstract class Resource
 {
@@ -21,8 +21,8 @@ abstract class Resource
 	/** @var array */
 	protected $rawData = null;
 
-	/** @var Client */
-	protected $client;
+	/** @var Transport */
+	protected $transport;
 
 	/** @var \Resource[] */
 	protected $subResources = [];
@@ -31,14 +31,14 @@ abstract class Resource
 	protected $uri;
 
 	/**
-	 * @param Client $client
-	 * @param string $uri
-	 * @param array  $data
+	 * @param Transport $transport
+	 * @param string    $uri
+	 * @param array     $data
 	 */
-	public function __construct(Client $client, $uri, array $data = [])
+	public function __construct(Transport $transport, $uri, array $data = [])
 	{
-		$this->client = $client;
-		$this->uri    = $uri;
+		$this->transport = $transport;
+		$this->uri       = $uri;
 		if ([] !== $data)
 		{
 			$this->hydrate($data);
@@ -90,7 +90,7 @@ abstract class Resource
 			}
 			$resourceName = $this->getResourceName($resourceClassName);
 			$uri          = ltrim(sprintf('%s/%s', $this->uri, $resourceName), '/');
-			$class        = new $resourceClassName($this->client, $uri);
+			$class        = new $resourceClassName($this->transport, $uri);
 
 			$this->subResources[lcfirst(Inflector::camelize($resourceName))] = $class;
 		}

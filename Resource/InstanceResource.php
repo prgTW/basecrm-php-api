@@ -12,7 +12,7 @@ abstract class InstanceResource extends Resource
 	{
 		$uri          = $this->getFullUri();
 		$resourceName = $this->getResourceName();
-		$data         = $this->client->get($uri, $resourceName);
+		$data         = $this->transport->get($uri, $resourceName);
 
 		$this->hydrate($data);
 
@@ -27,7 +27,7 @@ abstract class InstanceResource extends Resource
 		$resourceName = $this->getResourceName();
 		$uri          = $this->getFullUri();
 		$data         = $this->dehydrate();
-		$response     = $this->client->put($uri, $resourceName, [
+		$response     = $this->transport->put($uri, $resourceName, [
 			'query' => [
 				$resourceName => $data,
 			],

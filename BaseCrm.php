@@ -2,12 +2,12 @@
 
 namespace prgTW\BaseCRM;
 
-use prgTW\BaseCRM\Client\Client;
-use prgTW\BaseCRM\Client\GuzzleClient;
+use prgTW\BaseCRM\Client\ClientInterface;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
+use prgTW\BaseCRM\Transport\Transport;
 
 /**
  * @method Account getAccount()
@@ -16,16 +16,16 @@ use prgTW\BaseCRM\Service\Sources;
  */
 class BaseCrm extends Resource
 {
-	/** @var GuzzleClient */
-	protected $client;
+	/** @var Transport */
+	protected $transport;
 
 	/**
-	 * @param string $token
-	 * @param Client $client
+	 * @param string          $token
+	 * @param ClientInterface $client
 	 */
-	public function __construct($token, Client $client = null)
+	public function __construct($token, ClientInterface $client = null)
 	{
-		$this->client = null !== $client ? $client : new GuzzleClient($token);
+		$this->transport = new Transport($token, $client);
 		$this->setSubResources([
 			Account::class,
 			Sources::class,

@@ -1,13 +1,21 @@
 <?php
 
-namespace prgTW\BaseCRM\Client;
+namespace prgTW\BaseCRM\Transport;
 
 use GuzzleHttp\Message\ResponseInterface;
+use prgTW\BaseCRM\Client\ClientInterface;
+use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Exception\RestException;
 use prgTW\BaseCRM\Utils\Convert;
 
-abstract class Client implements ClientInterface
+class Transport
 {
+	const TOKEN_FUTUERSIMPLE_NAME = 'X-Futuresimple-Token';
+	const TOKEN_PIPEJUMP_NAME     = 'X-Pipejump-Auth';
+
+	/** @var ClientInterface */
+	private $client;
+
 	/** @var string */
 	private $token;
 
@@ -15,59 +23,75 @@ abstract class Client implements ClientInterface
 	protected $lastResponse;
 
 	/**
-	 * @param string $token
+	 * @param string          $token
+	 * @param ClientInterface $client
 	 */
-	public function __construct($token = '')
+	public function __construct($token = '', ClientInterface $client = null)
 	{
+		$this->client       = null !== $client ? $client : new GuzzleClient;
 		$this->token        = $token;
 		$this->lastResponse = null;
 	}
 
-	/** {@inheritdoc} */
-	abstract protected function request($method, $uri, $options = []);
-
 	/**
-	 * @return array
+	 * @param string $uri
+	 * @param string $key
+	 * @param array  $options
+	 *
+	 * @return array|bool
 	 */
-	protected function getAuthHeaders()
-	{
-		return array(
-			self::TOKEN_PIPEJUMP_NAME     => $this->token,
-			self::TOKEN_FUTUERSIMPLE_NAME => $this->token,
-		);
-	}
-
-	/** {@inheritdoc} */
 	public function get($uri, $key = null, array $options = [])
 	{
-		$response = $this->request('GET', $this->getUri($uri), $options);
+		$options  = $this->getOptions($options);
+		$response = $this->client->request('GET', $this->getUri($uri), $options);
 		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
-	/** {@inheritdoc} */
+	/**
+	 * @param string $uri
+	 * @param string $key
+	 * @param array  $options
+	 *
+	 * @return array|bool
+	 */
 	public function post($uri, $key = null, array $options = [])
 	{
-		$response = $this->request('POST', $this->getUri($uri), $options);
+		$options  = $this->getOptions($options);
+		$response = $this->client->request('POST', $this->getUri($uri), $options);
 		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
-	/** {@inheritdoc} */
+	/**
+	 * @param string $uri
+	 * @param string $key
+	 * @param array  $options
+	 *
+	 * @return array|bool
+	 */
 	public function put($uri, $key = null, array $options = [])
 	{
-		$response = $this->request('PUT', $this->getUri($uri), $options);
+		$options  = $this->getOptions($options);
+		$response = $this->client->request('PUT', $this->getUri($uri), $options);
 		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
 	}
 
-	/** {@inheritdoc} */
+	/**
+	 * @param string $uri
+	 * @param string $key
+	 * @param array  $options
+	 *
+	 * @return array|bool
+	 */
 	public function delete($uri, $key = null, array $options = [])
 	{
-		$response = $this->request('DELETE', $this->getUri($uri), $options);
+		$options  = $this->getOptions($options);
+		$response = $this->client->request('DELETE', $this->getUri($uri), $options);
 		$decoded  = $this->processResponse($response, $key);
 
 		return $decoded;
@@ -120,5 +144,22 @@ abstract class Client implements ClientInterface
 	protected function getUri($uri)
 	{
 		return $uri . '.json';
+	}
+
+	/**
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+	private function getOptions(array $options)
+	{
+		$options = array_merge_recursive([
+			'headers' => [
+				self::TOKEN_PIPEJUMP_NAME     => $this->token,
+				self::TOKEN_FUTUERSIMPLE_NAME => $this->token,
+			],
+		], $options);
+
+		return $options;
 	}
 }
