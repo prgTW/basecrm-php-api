@@ -30,7 +30,9 @@ class AutoPagingIterator implements \Iterator, \Countable
 	{
 		if (false === is_callable($generator))
 		{
+			//@codeCoverageIgnoreStart
 			throw new \InvalidArgumentException('Generator is not callable');
+			//@codeCoverageIgnoreEnd
 		}
 
 		$this->generator = $generator;
@@ -85,7 +87,9 @@ class AutoPagingIterator implements \Iterator, \Countable
 	/** {@inheritdoc} */
 	public function count()
 	{
+		//@codeCoverageIgnoreStart
 		throw new \BadMethodCallException('Not allowed');
+		//@codeCoverageIgnoreEnd
 	}
 
 	protected function loadIfNecessary()

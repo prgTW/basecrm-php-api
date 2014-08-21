@@ -127,13 +127,17 @@ class Transport
 
 			if (false === array_key_exists($key, $decoded))
 			{
+				//@codeCoverageIgnoreStart
 				throw new \InvalidArgumentException(sprintf('Key "%s" not found in data', $key));
+				//@codeCoverageIgnoreEnd
 			}
 
 			return $decoded[$key];
 		}
 
+		//@codeCoverageIgnoreStart
 		throw new RestException($response->getBody()->getContents(), $status);
+		//@codeCoverageIgnoreEnd
 	}
 
 	/**

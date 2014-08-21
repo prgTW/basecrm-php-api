@@ -6,20 +6,11 @@ use prgTW\BaseCRM\Resource\InstanceResource;
 
 class Lead extends InstanceResource
 {
-	/** @var int */
-	protected $id;
+	use LeadTrait;
 
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{
 		return self::ENDPOINT_SALES;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
 	}
 }

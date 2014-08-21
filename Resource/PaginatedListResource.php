@@ -2,8 +2,6 @@
 
 namespace prgTW\BaseCRM\Resource;
 
-use Doctrine\Common\Inflector\Inflector;
-
 abstract class PaginatedListResource extends ListResource
 {
 	/**
@@ -28,21 +26,23 @@ abstract class PaginatedListResource extends ListResource
 	/** {@inheritdoc} */
 	protected function postAll(array $data)
 	{
-		$singleResourceName = Inflector::singularize($this->getResourceName());
+		$childResourceName = $this->getChildResourceName();
 
 		foreach ($data['items'] as $key => $resourceData)
 		{
-			$data['items'][$key] = $this->getObjectFromJson($resourceData[$singleResourceName]);
+			$data['items'][$key] = $this->getObjectFromJson($resourceData[$childResourceName]);
 		}
 
-		return new Page($data, $singleResourceName);
+		return new Page($data, $childResourceName);
 	}
 
 
 	/** {@inheritdoc} */
 	public function count()
 	{
+		//@codeCoverageIgnoreStart
 		throw new \BadMethodCallException('Not allowed');
+		//@codeCoverageIgnoreEnd
 	}
 
 	/**

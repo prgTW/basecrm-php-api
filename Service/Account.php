@@ -63,10 +63,7 @@ class Account extends InstanceResource
 	 */
 	public function getCurrency()
 	{
-		if (null === $this->id)
-		{
-			$this->get();
-		}
+		$this->getIfNecessary();
 
 		return $this->currency;
 	}
@@ -88,10 +85,7 @@ class Account extends InstanceResource
 	 */
 	public function getName()
 	{
-		if (null === $this->id)
-		{
-			$this->get();
-		}
+		$this->getIfNecessary();
 
 		return $this->name;
 	}
@@ -113,10 +107,7 @@ class Account extends InstanceResource
 	 */
 	public function getTimezone()
 	{
-		if (null === $this->id)
-		{
-			$this->get();
-		}
+		$this->getIfNecessary();
 
 		return $this->timezone;
 	}
@@ -130,7 +121,16 @@ class Account extends InstanceResource
 	/** {@inheritdoc} */
 	protected function postDehydrate(array &$data)
 	{
+		unset($data['id']);
 		unset($data['currency']);
 		unset($data['currency_name']);
+	}
+
+	protected function getIfNecessary()
+	{
+		if (null === $this->id)
+		{
+			$this->get();
+		}
 	}
 }

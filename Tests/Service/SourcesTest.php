@@ -5,6 +5,7 @@ namespace prgTW\BaseCRM\Tests\Service;
 use prgTW\BaseCRM\BaseCrm;
 use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
+use prgTW\BaseCRM\Service\Detached\Source as DetachedSource;
 use prgTW\BaseCRM\Service\Source;
 use prgTW\BaseCRM\Tests\AbstractTest;
 
@@ -116,7 +117,7 @@ class SourcesTest extends AbstractTest
 		$client
 			->shouldReceive('request')
 			->once()
-			->with('GET', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
+			->with('GET', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
 			->andReturn($this->getResponse(200, '
 				{
 					"source": {
@@ -158,17 +159,47 @@ class SourcesTest extends AbstractTest
 		$this->assertEquals('modified', $source->getName());
 	}
 
+	public function testCreate()
+	{
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('POST', sprintf('%s/%s/sources.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
+				'query' => [
+					'source' => [
+						'name' => 'test',
+					],
+				],
+			]))
+			->andReturn($this->getResponse(200, '
+				{
+					"source": {
+						"name": "test",
+						"id": 405
+					}
+				}
+			'));
+		$baseCrm = new BaseCrm('', $client);
+		$sources = $baseCrm->getSources();
+		/** @var Source $source */
+		$source = $sources->create((new DetachedSource)->setName('test'));
+		$this->assertInstanceOf(Source::class, $source);
+		$this->assertEquals(405, $source->getId());
+		$this->assertEquals('test', $source->getName());
+	}
+
 	public function testDelete()
 	{
 		$client = \Mockery::mock(GuzzleClient::class);
 		$client
 			->shouldReceive('request')
 			->once()
-			->with('DELETE', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
-			->andReturn($this->getResponse(204, ''));
+			->with('DELETE', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
+			->andReturn($this->getResponse(200, ''));
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		$result  = $sources->delete(123);
-		$this->assertTrue($result);
+		$this->assertNull($result);
 	}
 }

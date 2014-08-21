@@ -33,6 +33,36 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	}
 
 	/**
+	 * @param DetachedResource $resource
+	 *
+	 * @return InstanceResource
+	 * @throws \InvalidArgumentException on resource scopes mismatch
+	 */
+	public function create(DetachedResource $resource)
+	{
+		$newResourceName   = $resource->getResourceName();
+		$childResourceName = $this->getChildResourceName();
+		if ($newResourceName !== $childResourceName)
+		{
+			//@codeCoverageIgnoreStart
+			throw new \InvalidArgumentException(sprintf('Cannot create resource "%s" under resource "%s"', $newResourceName, $this->getResourceName()));
+			//@codeCoverageIgnoreEnd
+		}
+
+		$uri     = $this->getFullUri();
+		$options = [
+			'query' => [
+				$childResourceName => $resource->dehydrate(),
+			],
+		];
+		$data    = $this->transport->post($uri, $childResourceName, $options);
+
+		$resource = $this->getObjectFromJson($data);
+
+		return $resource;
+	}
+
+	/**
 	 * @param string $id
 	 *
 	 * @return bool
@@ -52,10 +82,9 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	public function all(array $query = [])
 	{
-		$singleResourceName = Inflector::singularize($this->getResourceName());
-		$uri                = $this->getFullUri();
-		$options            = [] === $query ? [] : ['query' => $query];
-		$data               = $this->transport->get($uri, null, $options);
+		$uri     = $this->getFullUri();
+		$options = [] === $query ? [] : ['query' => $query];
+		$data    = $this->transport->get($uri, null, $options);
 
 		$data = $this->postAll($data);
 
@@ -107,13 +136,21 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	protected function postAll(array $data)
 	{
-		$singleResourceName = Inflector::singularize($this->getResourceName());
+		$childResourceName = $this->getChildResourceName();
 
 		foreach ($data as $key => $resourceData)
 		{
-			$data[$key] = $this->getObjectFromJson($resourceData[$singleResourceName]);
+			$data[$key] = $this->getObjectFromJson($resourceData[$childResourceName]);
 		}
 
-		return new ResourceCollection($data, $singleResourceName);
+		return new ResourceCollection($data, $childResourceName);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getChildResourceName()
+	{
+		return Inflector::singularize($this->getResourceName());
 	}
 }

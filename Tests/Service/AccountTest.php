@@ -16,7 +16,7 @@ class AccountTest extends AbstractTest
 		$client
 			->shouldReceive('request')
 			->once()
-			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
+			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
 			->andReturn($this->getResponse(200, '
 				{
 					"account": {
@@ -31,6 +31,8 @@ class AccountTest extends AbstractTest
 
 		$account = $baseCrm->getAccount();
 		$this->assertEquals('myaccount', $account->getName());
+		$this->assertEquals('UTC', $account->getTimezone());
+		$this->assertEquals(Currency::USD(), $account->getCurrency());
 	}
 
 	public function testCurrencyAlteration()
@@ -39,7 +41,7 @@ class AccountTest extends AbstractTest
 		$client
 			->shouldReceive('request')
 			->once()
-			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
+			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
 			->andReturn($this->getResponse(200, '
 				{
 					"account": {
@@ -65,10 +67,9 @@ class AccountTest extends AbstractTest
 			->with('PUT', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
 				'query' => [
 					'account' => [
-						'id'          => 123,
-						'name'        => 'myaccount',
+						'name'        => 'newname',
 						'currency_id' => Currency::PLN,
-						'timezone'    => 'UTC',
+						'timezone'    => 'new_timezone',
 					]
 				],
 			]))
@@ -76,19 +77,21 @@ class AccountTest extends AbstractTest
 				{
 					"account": {
 						"id": 123,
-						"name": "myaccount",
-						"timezone": "UTC",
+						"name": "newname",
+						"timezone": "new_timezone",
 						"currency_name": "Polish złoty"
 					}
 				}
 			'));
 
+		$account->setName('newname');
+		$account->setTimezone('new_timezone');
 		$account->setCurrency(Currency::PLN());
 		$account->save();
 
 		$this->assertEquals(123, $account->getId());
-		$this->assertEquals('myaccount', $account->getName());
-		$this->assertEquals('UTC', $account->getTimezone());
+		$this->assertEquals('newname', $account->getName());
+		$this->assertEquals('new_timezone', $account->getTimezone());
 		$this->assertEquals(Currency::PLN(), $account->getCurrency());
 	}
 }
