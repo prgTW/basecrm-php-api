@@ -12,7 +12,8 @@ class AccountTest extends AbstractTest
 {
 	public function testGet()
 	{
-		$client  = \Mockery::mock(GuzzleClient::class)
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
 			->shouldReceive('request')
 			->once()
 			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
@@ -25,8 +26,7 @@ class AccountTest extends AbstractTest
 						"currency_name": "US Dollar"
 					}
 				}
-			'))
-			->getMock();
+			'));
 		$baseCrm = new BaseCrm('', $client);
 
 		$account = $baseCrm->getAccount();
@@ -35,7 +35,8 @@ class AccountTest extends AbstractTest
 
 	public function testCurrencyAlteration()
 	{
-		$client  = \Mockery::mock(GuzzleClient::class)
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
 			->shouldReceive('request')
 			->once()
 			->with('GET', sprintf('%s/%s/account.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
@@ -48,13 +49,15 @@ class AccountTest extends AbstractTest
 						"currency_name": "US Dollar"
 					}
 				}
-			'))
-			->getMock();
+			'));
 		$baseCrm = new BaseCrm('', $client);
 
 		$account = $baseCrm->getAccount();
+
+		$this->assertEquals(123, $account->getId());
+		$this->assertEquals('myaccount', $account->getName());
+		$this->assertEquals('UTC', $account->getTimezone());
 		$this->assertEquals(Currency::USD(), $account->getCurrency());
-		$account->setCurrency(Currency::PLN());
 
 		$client
 			->shouldReceive('request')
@@ -80,7 +83,12 @@ class AccountTest extends AbstractTest
 				}
 			'));
 
+		$account->setCurrency(Currency::PLN());
 		$account->save();
-		$this->assertEquals(Currency::PLN()->getName(), $account->getCurrency()->getName());
+
+		$this->assertEquals(123, $account->getId());
+		$this->assertEquals('myaccount', $account->getName());
+		$this->assertEquals('UTC', $account->getTimezone());
+		$this->assertEquals(Currency::PLN(), $account->getCurrency());
 	}
 }
