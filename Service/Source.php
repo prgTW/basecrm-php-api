@@ -7,7 +7,7 @@ use prgTW\BaseCRM\Service\SourceTrait;
 
 class Source extends InstanceResource
 {
-	use \prgTW\BaseCRM\Service\SourceTrait;
+	use SourceTrait;
 
 	/** {@inheritdoc} */
 	protected function getEndpoint()
