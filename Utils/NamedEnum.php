@@ -20,7 +20,7 @@ abstract class NamedEnum extends Enum
 	/**
 	 * @param string $name
 	 *
-	 * @return Currency
+	 * @return NamedEnum
 	 * @throws \InvalidArgumentException when invalid currency name given
 	 */
 	public static function fromName($name)
