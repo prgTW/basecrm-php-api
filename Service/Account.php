@@ -53,7 +53,7 @@ class Account extends InstanceResource
 	{
 		$this->currency     = $currency;
 		$this->currencyId   = $currency->getValue();
-		$this->currencyName = Currency::getNames()[$currency->getValue()];
+		$this->currencyName = $currency->getName();
 
 		return $this;
 	}
