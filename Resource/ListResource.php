@@ -39,12 +39,10 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	public function delete($id)
 	{
-		$uri = sprintf('%s/%s', $this->uri, $id);
-		/** @var InstanceResource $resource */
-		$resource = new $this->instanceName($this->transport, $uri);
-		$resource->get();
+		$uri    = sprintf('%s/%s', $this->uri, $id);
+		$result = $this->transport->delete($uri);
 
-		return $resource;
+		return $result;
 	}
 
 	/**
