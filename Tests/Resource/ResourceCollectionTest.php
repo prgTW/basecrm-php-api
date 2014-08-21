@@ -33,14 +33,12 @@ class ResourceCollectionTest extends AbstractTest
 			$this->assertInstanceOf(Source::class, $this->collection[$key]);
 		}
 
-		next($this->collection);
-		$this->assertNull(key($this->collection));
-
 		unset($this->collection[2]);
 		unset($this->collection[1]);
 		unset($this->collection[0]);
 
 		$this->assertCount(0, $this->collection);
+		$this->assertNull($this->collection->key());
 	}
 
 	public function testIterator()
