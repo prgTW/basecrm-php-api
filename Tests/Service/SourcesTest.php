@@ -12,7 +12,8 @@ class SourcesTest extends AbstractTest
 {
 	public function testAll()
 	{
-		$client  = \Mockery::mock(GuzzleClient::class)
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
 			->shouldReceive('request')
 			->twice()
 			->with('GET', sprintf('%s/%s/sources.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
@@ -37,8 +38,7 @@ class SourcesTest extends AbstractTest
 					}
 				}
 				]
-			'))
-			->getMock();
+			'));
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		$this->assertCount(3, $sources);
@@ -75,7 +75,8 @@ class SourcesTest extends AbstractTest
 
 	public function testGet()
 	{
-		$client  = \Mockery::mock(GuzzleClient::class)
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
 			->shouldReceive('request')
 			->once()
 			->with('GET', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
@@ -86,8 +87,7 @@ class SourcesTest extends AbstractTest
 						"id": 123
 					}
 				}
-			'))
-			->getMock();
+			'));
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		/** @var Source $source */
@@ -119,5 +119,19 @@ class SourcesTest extends AbstractTest
 		$source->setName('modified');
 		$source->save();
 		$this->assertEquals('modified', $source->getName());
+	}
+
+	public function testDelete()
+	{
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('DELETE', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), \Mockery::any())
+			->andReturn($this->getResponse(204, ''));
+		$baseCrm = new BaseCrm('', $client);
+		$sources = $baseCrm->getSources();
+		$result  = $sources->delete(123);
+		$this->assertTrue($result);
 	}
 }
