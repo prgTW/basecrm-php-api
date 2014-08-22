@@ -13,7 +13,8 @@ class Page implements \IteratorAggregate
 	public function __construct(array $page, $resourceName)
 	{
 		$this->page               = $page;
-		$this->resourceCollection = new ResourceCollection($page['items']);
+		$items                    = array_key_exists('items', $page) ? $page['items'] : $page;
+		$this->resourceCollection = new ResourceCollection($items);
 	}
 
 	/**
