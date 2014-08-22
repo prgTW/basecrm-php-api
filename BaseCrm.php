@@ -49,7 +49,7 @@ class BaseCrm extends Resource
 	protected function getEndpoint()
 	{
 		//@codeCoverageIgnoreStart
-		throw new \LogicException('Cannot call baseCrm directly');
+		throw new \LogicException('Cannot call BaseCrm directly');
 		//@codeCoverageIgnoreEnd
 	}
 }
