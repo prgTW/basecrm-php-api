@@ -3,13 +3,13 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
+use prgTW\BaseCRM\Service\Behavior\TaggableTrait;
 
 /**
  * @method Tags getTaggings()
  */
 class Lead extends InstanceResource
 {
-	use LeadTrait;
 	use TaggableTrait;
 
 	/** {@inheritdoc} */
@@ -29,10 +29,10 @@ class Lead extends InstanceResource
 	/** {@inheritdoc} */
 	protected function preDehydrate()
 	{
-		return [
-			'first_name'   => $this->firstName,
-			'last_name'    => $this->lastName,
-			'company_name' => $this->companyName,
-		];
+		return array_intersect_key($this->data, array_flip([
+			'first_name',
+			'last_name',
+			'company_name',
+		]));
 	}
 }
