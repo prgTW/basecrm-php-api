@@ -13,6 +13,9 @@ class AutoPagingIterator implements \Iterator, \Countable
 	/** @var int */
 	protected $page;
 
+	/** @var array */
+	protected $query;
+
 	/** @var string */
 	protected $sortBy;
 
@@ -22,11 +25,11 @@ class AutoPagingIterator implements \Iterator, \Countable
 	/**
 	 * @param callable $generator
 	 * @param int      $page
-	 * @param string   $sortBy
+	 * @param array    $query
 	 *
 	 * @throws \InvalidArgumentException when generator is not callable
 	 */
-	public function __construct($generator, $page, $sortBy)
+	public function __construct($generator, $page, array $query = [])
 	{
 		if (false === is_callable($generator))
 		{
@@ -37,8 +40,8 @@ class AutoPagingIterator implements \Iterator, \Countable
 
 		$this->generator = $generator;
 		$this->args      = array(
-			'page'    => $page,
-			'sort_by' => $sortBy,
+			'page'  => $page,
+			'query' => $query,
 		);
 		$this->reset();
 	}
@@ -46,7 +49,7 @@ class AutoPagingIterator implements \Iterator, \Countable
 	protected function reset()
 	{
 		$this->page               = $this->args['page'];
-		$this->sortBy             = $this->args['sort_by'];
+		$this->query              = $this->args['query'];
 		$this->resourceCollection = null;
 	}
 
@@ -99,7 +102,7 @@ class AutoPagingIterator implements \Iterator, \Countable
 			/** @var Page $page */
 			$page = call_user_func_array($this->generator, array(
 				$this->page,
-				$this->sortBy,
+				$this->query,
 			));
 
 			$this->resourceCollection = $page->getResourceCollection();

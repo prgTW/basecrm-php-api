@@ -5,20 +5,16 @@ namespace prgTW\BaseCRM\Resource;
 abstract class PaginatedListResource extends ListResource
 {
 	/**
-	 * @param int    $page
-	 * @param string $sortBy
+	 * @param int   $page
+	 * @param array $query
 	 *
 	 * @return Page
 	 */
-	public function all($page = 1, $sortBy = null)
+	public function getPage($page = 1, array $query = [])
 	{
-		$query = [
+		$query = array_merge_recursive($query, [
 			'page' => $page,
-		];
-		if (null !== $sortBy)
-		{
-			$query['sort_by'] = $sortBy;
-		}
+		]);
 
 		return parent::all($query);
 	}
@@ -46,13 +42,13 @@ abstract class PaginatedListResource extends ListResource
 	}
 
 	/**
-	 * @param int    $page
-	 * @param string $sortBy
+	 * @param int   $page
+	 * @param array $query
 	 *
 	 * @return AutoPagingIterator
 	 */
-	public function getIterator($page = 1, $sortBy = null)
+	public function getIterator($page = 1, array $query = [])
 	{
-		return new AutoPagingIterator([$this, 'all'], $page, $sortBy);
+		return new AutoPagingIterator([$this, 'getPage'], $page, $query);
 	}
 }

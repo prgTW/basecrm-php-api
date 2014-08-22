@@ -11,4 +11,16 @@ class Leads extends PaginatedListResource
 	{
 		return self::ENDPOINT_LEADS;
 	}
+
+	/** {@inheritdoc} */
+	public function all($page = 1, $sortBy = null)
+	{
+		$query = [];
+		if (null !== $sortBy)
+		{
+			$query['sort_by'] = $sortBy;
+		}
+
+		return parent::getPage($page, $query);
+	}
 }
