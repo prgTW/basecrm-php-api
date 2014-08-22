@@ -42,11 +42,11 @@ trait CreateResource
 
 		if (array_key_exists($childResourceName, $data))
 		{
-			$data = $this->getObjectFromJson($data[$childResourceName]);
+			$data = $this->getObjectFromArray($data[$childResourceName]);
 		}
 		else
 		{
-			$data = array_map([$this, 'getObjectFromJson'], $data);
+			$data = array_map([$this, 'getObjectFromArray'], $data);
 
 			return new ResourceCollection($data);
 		}

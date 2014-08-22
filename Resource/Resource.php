@@ -98,6 +98,32 @@ abstract class Resource extends BaseResource
 	}
 
 	/**
+	 * @param array  $params
+	 * @param string $instanceClassName
+	 * @param string $idParam
+	 *
+	 * @return Resource
+	 */
+	protected function getObjectFromArray(array $params, $instanceClassName = null, $idParam = 'id')
+	{
+		if (null === $instanceClassName)
+		{
+			$instanceClassName = Inflector::singularize(static::class);
+		}
+
+		if (array_key_exists($idParam, $params))
+		{
+			$uri = sprintf('%s/%s', $this->uri, $params[$idParam]);
+		}
+		else
+		{
+			$uri = $this->uri;
+		}
+
+		return new $instanceClassName($this->transport, $uri, $params);
+	}
+
+	/**
 	 * @param $method
 	 * @param $arguments
 	 *

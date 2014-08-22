@@ -51,14 +51,14 @@ abstract class PaginatedListResource extends ListResource
 		{
 			foreach ($data['items'] as $key => $resourceData)
 			{
-				$data['items'][$key] = $this->getObjectFromJson($resourceData[$childResourceName]);
+				$data['items'][$key] = $this->getObjectFromArray($resourceData[$childResourceName]);
 			}
 		}
 		else
 		{
 			foreach ($data as $key => $resourceData)
 			{
-				$data[$key] = $this->getObjectFromJson($resourceData[$childResourceName]);
+				$data[$key] = $this->getObjectFromArray($resourceData[$childResourceName]);
 			}
 		}
 

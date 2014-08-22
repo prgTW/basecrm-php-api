@@ -10,14 +10,10 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 {
 	use CreateResource;
 
-	/** @var string */
-	protected $instanceName;
-
 	/** {@inheritdoc} */
 	public function __construct(Transport $transport, $uri)
 	{
 		parent::__construct($transport, $uri);
-		$this->instanceName = Inflector::singularize(static::class);
 	}
 
 	/**
@@ -27,9 +23,10 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	public function get($id)
 	{
-		$uri = sprintf('%s/%s', $this->uri, $id);
+		$instanceClassName = Inflector::singularize(static::class);
+		$uri               = sprintf('%s/%s', $this->uri, $id);
 		/** @var InstanceResource $resource */
-		$resource = new $this->instanceName($this->transport, $uri);
+		$resource = new $instanceClassName($this->transport, $uri);
 		$resource->get();
 
 		return $resource;
@@ -64,26 +61,6 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 		return $data;
 	}
 
-	/**
-	 * @param array  $params
-	 * @param string $idParam
-	 *
-	 * @return Resource
-	 */
-	protected function getObjectFromJson(array $params, $idParam = 'id')
-	{
-		if (array_key_exists($idParam, $params))
-		{
-			$uri = sprintf('%s/%s', $this->uri, $params[$idParam]);
-		}
-		else
-		{
-			$uri = $this->uri;
-		}
-
-		return new $this->instanceName($this->transport, $uri, $params);
-	}
-
 	/** {@inheritdoc} */
 	public function count()
 	{
@@ -113,7 +90,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 
 		foreach ($data as $key => $resourceData)
 		{
-			$data[$key] = $this->getObjectFromJson($resourceData[$childResourceName]);
+			$data[$key] = $this->getObjectFromArray($resourceData[$childResourceName]);
 		}
 
 		return new ResourceCollection($data, $childResourceName);
