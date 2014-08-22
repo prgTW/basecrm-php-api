@@ -70,12 +70,51 @@ class LeadsTest extends AbstractTest
 					]
 				}
 			'));
+
+		$baseCrm = new BaseCrm('', $client);
+		$leads   = $baseCrm->getLeads();
+		$found   = 0;
+		/** @var Lead $lead */
+		foreach ($leads as $lead)
+		{
+			$this->assertInstanceOf(Lead::class, $lead);
+			$this->assertEquals($found + 1, $lead->id);
+			++$found;
+		}
+		$this->assertEquals(2, $found);
+	}
+
+	public function testAutoPagination()
+	{
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
+			->shouldReceive('request')
+			->twice()
+			->with('GET', sprintf('%s/%s/leads.json', Resource::ENDPOINT_LEADS, Resource::PREFIX), \Mockery::any())
+			->andReturn($this->getResponse(200, '
+				{
+					"success": true,
+					"metadata": {
+						"count": 1
+					},
+					"items": [
+						{
+							"success": true,
+							"lead": {
+								"id": 1
+							},
+							"metadata": {
+							}
+						}
+					]
+				}
+			'));
 		$client
 			->shouldReceive('request')
 			->once()
 			->with('GET', sprintf('%s/%s/leads.json', Resource::ENDPOINT_LEADS, Resource::PREFIX), $this->getQuery([
 				'query' => [
-					'page' => 2
+					'page' => 3
 				]
 			]))
 			->andReturn($this->getResponse(200, '
@@ -91,14 +130,15 @@ class LeadsTest extends AbstractTest
 
 		$baseCrm = new BaseCrm('', $client);
 		$leads   = $baseCrm->getLeads();
-		$i       = 1;
+		$leads->setAutoPagination(true);
+		$found = 0;
 		/** @var Lead $lead */
 		foreach ($leads as $lead)
 		{
 			$this->assertInstanceOf(Lead::class, $lead);
-			$this->assertEquals($i, $lead->id);
-			++$i;
+			++$found;
 		}
+		$this->assertEquals(2, $found);
 	}
 
 	public function testTaggings()

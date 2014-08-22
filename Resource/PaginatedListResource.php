@@ -4,6 +4,29 @@ namespace prgTW\BaseCRM\Resource;
 
 abstract class PaginatedListResource extends ListResource
 {
+	/** @var bool */
+	protected $autoPagination = false;
+
+	/**
+	 * @return bool
+	 */
+	public function getAutoPagination()
+	{
+		return $this->autoPagination;
+	}
+
+	/**
+	 * @param bool $autoPagination
+	 *
+	 * @return $this
+	 */
+	public function setAutoPagination($autoPagination)
+	{
+		$this->autoPagination = $autoPagination;
+
+		return $this;
+	}
+
 	/**
 	 * @param int   $page
 	 * @param array $query
@@ -45,10 +68,12 @@ abstract class PaginatedListResource extends ListResource
 	 * @param int   $page
 	 * @param array $query
 	 *
-	 * @return AutoPagingIterator
+	 * @return AutoPagingIterator|PagingIterator
 	 */
 	public function getIterator($page = 1, array $query = [])
 	{
-		return new AutoPagingIterator([$this, 'getPage'], $page, $query);
+		$iteratorClass = true === $this->autoPagination ? AutoPagingIterator::class : PagingIterator::class;
+
+		return new $iteratorClass([$this, 'getPage'], $page, $query);
 	}
 }
