@@ -11,6 +11,9 @@ use prgTW\BaseCRM\Service\LeadTrait;
  * @property string mobile
  * @property string address
  * @property string city
+ * @property string street
+ * @property string zip
+ * @property string region
  * @property string country
  * @property string title
  * @property string description
