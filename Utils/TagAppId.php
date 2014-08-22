@@ -3,11 +3,11 @@
 namespace prgTW\BaseCRM\Utils;
 
 /**
- * @method static TaggingAppId DEALS()
- * @method static TaggingAppId CONTACTS()
- * @method static TaggingAppId LEADS()
+ * @method static TagAppId DEALS()
+ * @method static TagAppId CONTACTS()
+ * @method static TagAppId LEADS()
  */
-class TaggingAppId extends NamedEnum
+class TagAppId extends NamedEnum
 {
 	const DEALS    = 1;
 	const CONTACTS = 4;

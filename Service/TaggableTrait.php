@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Service\Detached\Tag;
-use prgTW\BaseCRM\Utils\TaggingAppId;
+use prgTW\BaseCRM\Utils\TagAppId;
 
 trait TaggableTrait
 {
@@ -16,7 +16,7 @@ trait TaggableTrait
 	{
 		$classNameOnly = $this->getClassNameOnly();
 
-		$tag          = TaggingAppId::fromName($classNameOnly);
+		$tag          = TagAppId::fromName($classNameOnly);
 		$appId        = $tag->getValue();
 		$taggableType = $tag->getName();
 		$taggableId   = $this->id;
