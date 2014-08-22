@@ -150,42 +150,4 @@ abstract class Resource extends BaseResource
 
 		return $subResource;
 	}
-
-	/**
-	 * @param string $name
-	 *
-	 * @return mixed
-	 */
-	public function __get($name)
-	{
-		$getter = sprintf('get%s', ucfirst(Inflector::camelize($name)));
-		if (method_exists($this, $getter))
-		{
-			return $this->$getter();
-		}
-
-		$key = Inflector::tableize($name);
-		if (array_key_exists($key, $this->data))
-		{
-			return $this->data[$key];
-		}
-
-		return $this->$name;
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed  $value
-	 */
-	public function __set($name, $value)
-	{
-		$setter = sprintf('set%s', ucfirst(Inflector::camelize($name)));
-		if (method_exists($this, $setter))
-		{
-			return $this->$setter($value);
-		}
-
-		$key              = Inflector::tableize($name);
-		$this->data[$key] = $value;
-	}
 }
