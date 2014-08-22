@@ -25,4 +25,14 @@ class Lead extends InstanceResource
 			Tags::class => 'taggings',
 		]);
 	}
+
+	/** {@inheritdoc} */
+	protected function preDehydrate()
+	{
+		return [
+			'first_name'   => $this->firstName,
+			'last_name'    => $this->lastName,
+			'company_name' => $this->companyName,
+		];
+	}
 }

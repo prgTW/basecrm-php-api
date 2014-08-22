@@ -96,7 +96,7 @@ class LeadsTest extends AbstractTest
 		foreach ($leads as $lead)
 		{
 			$this->assertInstanceOf(Lead::class, $lead);
-			$this->assertEquals($i, $lead->getId());
+			$this->assertEquals($i, $lead->id);
 			++$i;
 		}
 	}
@@ -133,7 +133,7 @@ class LeadsTest extends AbstractTest
 		/** @var Lead $lead */
 		$lead = $baseCrm->getLeads()->get(1);
 		$this->assertInstanceOf(Lead::class, $lead);
-		$this->assertEquals(1, $lead->getId());
+		$this->assertEquals(1, $lead->id);
 
 		$client
 			->shouldReceive('request')

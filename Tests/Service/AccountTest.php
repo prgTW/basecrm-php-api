@@ -30,9 +30,9 @@ class AccountTest extends AbstractTest
 		$baseCrm = new BaseCrm('', $client);
 
 		$account = $baseCrm->getAccount();
-		$this->assertEquals('myaccount', $account->getName());
-		$this->assertEquals('UTC', $account->getTimezone());
-		$this->assertEquals(Currency::USD(), $account->getCurrency());
+		$this->assertEquals('myaccount', $account->name);
+		$this->assertEquals('UTC', $account->timezone);
+		$this->assertEquals(Currency::USD(), $account->currency);
 	}
 
 	public function testCurrencyAlteration()
@@ -56,10 +56,10 @@ class AccountTest extends AbstractTest
 
 		$account = $baseCrm->getAccount();
 
-		$this->assertEquals(123, $account->getId());
-		$this->assertEquals('myaccount', $account->getName());
-		$this->assertEquals('UTC', $account->getTimezone());
-		$this->assertEquals(Currency::USD(), $account->getCurrency());
+		$this->assertEquals(123, $account->id);
+		$this->assertEquals('myaccount', $account->name);
+		$this->assertEquals('UTC', $account->timezone);
+		$this->assertEquals(Currency::USD(), $account->currency);
 
 		$client
 			->shouldReceive('request')
@@ -84,14 +84,14 @@ class AccountTest extends AbstractTest
 				}
 			'));
 
-		$account->setName('newname');
-		$account->setTimezone('new_timezone');
-		$account->setCurrency(Currency::PLN());
+		$account->name = 'newname';
+		$account->timezone = 'new_timezone';
+		$account->currency = Currency::PLN();
 		$account->save();
 
-		$this->assertEquals(123, $account->getId());
-		$this->assertEquals('newname', $account->getName());
-		$this->assertEquals('new_timezone', $account->getTimezone());
-		$this->assertEquals(Currency::PLN(), $account->getCurrency());
+		$this->assertEquals(123, $account->id);
+		$this->assertEquals('newname', $account->name);
+		$this->assertEquals('new_timezone', $account->timezone);
+		$this->assertEquals(Currency::PLN(), $account->currency);
 	}
 }

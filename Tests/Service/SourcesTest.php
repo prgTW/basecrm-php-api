@@ -49,12 +49,12 @@ class SourcesTest extends AbstractTest
 		foreach ($sources as $source)
 		{
 			$this->assertInstanceOf(Source::class, $source);
-			$this->assertEquals('test', $source->getName());
+			$this->assertEquals('test', $source->name);
 
 			$client
 				->shouldReceive('request')
 				->once()
-				->with('PUT', sprintf('%s/%s/sources/%d.json', Resource::ENDPOINT_SALES, Resource::PREFIX, $source->getId()), $this->getQuery([
+				->with('PUT', sprintf('%s/%s/sources/%d.json', Resource::ENDPOINT_SALES, Resource::PREFIX, $source->id), $this->getQuery([
 					'query' => [
 						'source' => [
 							'name' => 'test',
@@ -132,8 +132,8 @@ class SourcesTest extends AbstractTest
 		$source = $sources->get(123);
 
 		$this->assertInstanceOf(Source::class, $source);
-		$this->assertEquals(123, $source->getId());
-		$this->assertEquals('test', $source->getName());
+		$this->assertEquals(123, $source->id);
+		$this->assertEquals('test', $source->name);
 
 		$client
 			->shouldReceive('request')
@@ -154,9 +154,9 @@ class SourcesTest extends AbstractTest
 				}
 			'));
 
-		$source->setName('modified');
+		$source->name = 'modified';
 		$source->save();
-		$this->assertEquals('modified', $source->getName());
+		$this->assertEquals('modified', $source->name);
 	}
 
 	public function testCreate()
@@ -183,10 +183,12 @@ class SourcesTest extends AbstractTest
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		/** @var Source $source */
-		$source = $sources->create((new DetachedSource)->setName('test'));
+		$newSource = (new DetachedSource);
+		$newSource->name = 'test';
+		$source = $sources->create($newSource);
 		$this->assertInstanceOf(Source::class, $source);
-		$this->assertEquals(405, $source->getId());
-		$this->assertEquals('test', $source->getName());
+		$this->assertEquals(405, $source->id);
+		$this->assertEquals('test', $source->name);
 	}
 
 	public function testDelete()

@@ -16,20 +16,20 @@ trait TaggableTrait
 	{
 		$classNameOnly = $this->getClassNameOnly();
 
-		$tagging      = TaggingAppId::fromName($classNameOnly);
-		$appId        = $tagging->getValue();
-		$taggableType = $tagging->getName();
-		$taggableId   = $this->getId();
+		$tag          = TaggingAppId::fromName($classNameOnly);
+		$appId        = $tag->getValue();
+		$taggableType = $tag->getName();
+		$taggableId   = $this->id;
 
-		$tagging = (new Tag)
-			->setAppId($appId)
-			->setTaggableType($taggableType)
-			->setTaggableId($taggableId)
-			->setTagList($tags);
+		$tag               = (new Tag);
+		$tag->appId        = $appId;
+		$tag->taggableType = $taggableType;
+		$tag->taggableId   = $taggableId;
+		$tag->tagList      = implode(',', $tags);
 
-		/** @var Tags $taggings */
-		$taggings = $this->getTags();
-		$result   = $taggings->create($tagging, false);
+		/** @var Tags $tags */
+		$tags   = $this->getTags();
+		$result = $tags->create($tag, false);
 
 		return $result;
 	}

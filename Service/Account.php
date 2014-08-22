@@ -5,26 +5,14 @@ namespace prgTW\BaseCRM\Service;
 use prgTW\BaseCRM\Resource\InstanceResource;
 use prgTW\BaseCRM\Utils\Currency;
 
+/**
+ * @property-read int      id
+ * @property string        name
+ * @property string        timezone
+ * @property-read Currency currency
+ */
 class Account extends InstanceResource
 {
-	/** @var int */
-	protected $id;
-
-	/** @var string */
-	protected $name;
-
-	/** @var string */
-	protected $timezone;
-
-	/** @var Currency */
-	protected $currency;
-
-	/** @var int */
-	protected $currencyId;
-
-	/** @var string */
-	protected $currencyName;
-
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{
@@ -34,14 +22,11 @@ class Account extends InstanceResource
 	/**
 	 * @return int
 	 */
-	public function getId()
+	protected function getId()
 	{
-		if (null === $this->id)
-		{
-			$this->get();
-		}
+		$this->getIfNecessary();
 
-		return $this->id;
+		return $this->data['id'];
 	}
 
 	/**
@@ -51,9 +36,8 @@ class Account extends InstanceResource
 	 */
 	public function setCurrency(Currency $currency)
 	{
-		$this->currency     = $currency;
-		$this->currencyId   = $currency->getValue();
-		$this->currencyName = $currency->getName();
+		$this->data['currency_id']   = $currency->getValue();
+		$this->data['currency_name'] = $currency->getName();
 
 		return $this;
 	}
@@ -61,55 +45,31 @@ class Account extends InstanceResource
 	/**
 	 * @return Currency
 	 */
-	public function getCurrency()
+	protected function getCurrency()
 	{
 		$this->getIfNecessary();
 
-		return $this->currency;
-	}
-
-	/**
-	 * @param string $name
-	 *
-	 * @return $this
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-
-		return $this;
+		return new Currency($this->data['currency_id']);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName()
+	protected function getName()
 	{
 		$this->getIfNecessary();
 
-		return $this->name;
-	}
-
-	/**
-	 * @param string $timezone
-	 *
-	 * @return $this
-	 */
-	public function setTimezone($timezone)
-	{
-		$this->timezone = $timezone;
-
-		return $this;
+		return $this->data['name'];
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTimezone()
+	protected function getTimezone()
 	{
 		$this->getIfNecessary();
 
-		return $this->timezone;
+		return $this->data['timezone'];
 	}
 
 	/** {@inheritdoc} */
@@ -128,9 +88,21 @@ class Account extends InstanceResource
 
 	protected function getIfNecessary()
 	{
-		if (null === $this->id)
+		if (null === $this->data)
 		{
 			$this->get();
 		}
 	}
+
+	/** {@inheritdoc} */
+	public function __get($name)
+	{
+		if (null === $this->data)
+		{
+			$this->getIfNecessary();
+		}
+
+		return parent::__get($name);
+	}
+
 }

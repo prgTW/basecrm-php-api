@@ -18,7 +18,7 @@ abstract class BaseResource
 	const PREFIX = 'api/v1';
 
 	/** @var array */
-	protected $rawData = null;
+	protected $data = null;
 
 	/**
 	 * @param string $resourceClassName Fully classified class name
@@ -64,15 +64,17 @@ abstract class BaseResource
 	 */
 	public function hydrate(array $data)
 	{
-		$this->rawData = $data;
-		$vars          = array_diff_key(get_class_vars(static::class), get_class_vars(get_parent_class($this)));
-
-		foreach ($data as $name => $value)
+		$this->data = [];
+		foreach ($data as $key => $value)
 		{
-			$key = Inflector::camelize($name);
-			if (array_key_exists($key, $vars))
+			$setter = sprintf('set%s', ucfirst(Inflector::camelize($key)));
+			if (method_exists($this, $setter))
 			{
-				$this->$key = $value;
+				$this->$setter($value);
+			}
+			else
+			{
+				$this->data[$key] = $value;
 			}
 		}
 
@@ -95,11 +97,10 @@ abstract class BaseResource
 
 		if (false === is_array($data))
 		{
-			$vars = array_diff_key(get_class_vars(static::class), get_class_vars(get_parent_class($this)));
-			$data = [];
-			foreach (array_keys($vars) as $key)
+			foreach ($this->data as $key => $value)
 			{
-				$data[Inflector::tableize($key)] = $this->$key;
+				$getter     = sprintf('get%s', ucfirst(Inflector::camelize($key)));
+				$data[$key] = method_exists($this, $getter) ? $this->$getter() : $this->$key;
 			}
 		}
 
