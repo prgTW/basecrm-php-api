@@ -1,8 +1,9 @@
 <?php
 
-namespace prgTW\BaseCRM\Service;
+namespace prgTW\BaseCRM\Service\Behavior;
 
 use prgTW\BaseCRM\Service\Detached\Tag;
+use prgTW\BaseCRM\Service\Tags;
 use prgTW\BaseCRM\Utils\TagAppId;
 
 trait TaggableTrait
