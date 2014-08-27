@@ -4,8 +4,6 @@ namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\Page;
 use prgTW\BaseCRM\Resource\PaginatedListResource;
-use prgTW\BaseCRM\Service\Behavior\NoteableTrait;
-use prgTW\BaseCRM\Service\Behavior\RemindableTrait;
 
 class Contacts extends PaginatedListResource
 {
