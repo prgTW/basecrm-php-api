@@ -15,7 +15,7 @@ trait RemindableTrait
 	 * @param bool      $done
 	 * @param \DateTime $date
 	 *
-	 * @return bool
+	 * @return Resource
 	 */
 	public function addReminder($content, $done = false, \DateTime $date = null)
 	{

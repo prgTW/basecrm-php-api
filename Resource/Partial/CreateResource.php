@@ -3,8 +3,6 @@
 namespace prgTW\BaseCRM\Resource\Partial;
 
 use prgTW\BaseCRM\Resource\DetachedResource;
-use prgTW\BaseCRM\Resource\InstanceResource;
-use prgTW\BaseCRM\Resource\ListResource;
 use prgTW\BaseCRM\Resource\ResourceCollection;
 use prgTW\BaseCRM\Transport\Transport;
 
@@ -22,7 +20,7 @@ trait CreateResource
 	 * @param bool             $useKey
 	 *
 	 * @throws \InvalidArgumentException on resource scopes mismatch
-	 * @return InstanceResource|ListResource
+	 * @return Resource|ResourceCollection
 	 */
 	public function create(DetachedResource $resource, $useKey = true)
 	{

@@ -8,6 +8,9 @@ class ConvertTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provideObjectsAndArrays
+	 *
+	 * @param object $object
+	 * @param array  $array
 	 */
 	public function testObjectToArray($object, array $array)
 	{

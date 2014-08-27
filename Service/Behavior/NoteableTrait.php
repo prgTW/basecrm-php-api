@@ -13,7 +13,7 @@ trait NoteableTrait
 	/**
 	 * @param string $content
 	 *
-	 * @return bool
+	 * @return Resource
 	 */
 	public function addNote($content)
 	{

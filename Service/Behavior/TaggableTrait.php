@@ -2,6 +2,7 @@
 
 namespace prgTW\BaseCRM\Service\Behavior;
 
+use prgTW\BaseCRM\Resource\ResourceCollection;
 use prgTW\BaseCRM\Service\Detached\Tag;
 use prgTW\BaseCRM\Service\Tags;
 use prgTW\BaseCRM\Utils\TagAppId;
@@ -15,7 +16,7 @@ trait TaggableTrait
 	/**
 	 * @param array $tags
 	 *
-	 * @return bool
+	 * @return ResourceCollection
 	 */
 	public function saveTags(array $tags)
 	{
