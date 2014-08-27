@@ -3,6 +3,8 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
+use prgTW\BaseCRM\Service\Behavior\NoteableTrait;
+use prgTW\BaseCRM\Service\Behavior\RemindableTrait;
 
 /**
  * @method Notes getNotes()
@@ -10,6 +12,9 @@ use prgTW\BaseCRM\Resource\InstanceResource;
  */
 class Contact extends InstanceResource
 {
+	use NoteableTrait;
+	use RemindableTrait;
+
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{

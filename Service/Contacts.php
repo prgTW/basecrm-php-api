@@ -9,9 +9,6 @@ use prgTW\BaseCRM\Service\Behavior\RemindableTrait;
 
 class Contacts extends PaginatedListResource
 {
-	use NoteableTrait;
-	use RemindableTrait;
-
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{
