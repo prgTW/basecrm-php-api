@@ -6,6 +6,7 @@ use prgTW\BaseCRM\BaseCrm;
 use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Resource\ResourceCollection;
+use prgTW\BaseCRM\Service\Enum\LeadsSortBy;
 use prgTW\BaseCRM\Service\Lead;
 use prgTW\BaseCRM\Tests\AbstractTest;
 
@@ -82,6 +83,56 @@ class LeadsTest extends AbstractTest
 			++$found;
 		}
 		$this->assertEquals(2, $found);
+	}
+
+	/**
+	 * @param LeadsSortBy $sortBy
+	 *
+	 * @dataProvider provideSortFields
+	 */
+	public function testSorting(LeadsSortBy $sortBy = null)
+	{
+		$query = $this->getQuery([
+			'query' => [
+				'page' => 1
+			]
+		]);
+		if (null !== $sortBy)
+		{
+			$query['query']['sort_by'] = $sortBy->getValue();
+		}
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('GET', sprintf('%s/%s/leads.json', Resource::ENDPOINT_LEADS, Resource::PREFIX), $query)
+			->andReturn($this->getResponse(200, '
+				{
+					"success": true,
+					"metadata": {
+						"count": 0
+					},
+					"items": [
+					]
+				}
+			'));
+
+		$baseCrm = new BaseCrm('', $client);
+		$baseCrm->getLeads()->all(1, $sortBy);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provideSortFields()
+	{
+		return [
+			[null],
+			[LeadsSortBy::ID_DESC()],
+			[LeadsSortBy::ADDED_ON()],
+			[LeadsSortBy::FIRST_NAME()],
+			[LeadsSortBy::LAST_NAME()],
+		];
 	}
 
 	public function testAutoPagination()
