@@ -10,7 +10,10 @@ class Page implements \IteratorAggregate
 	/** @var ResourceCollection */
 	protected $resourceCollection;
 
-	public function __construct(array $page, $resourceName)
+	/**
+	 * @param array $page
+	 */
+	public function __construct(array $page)
 	{
 		$this->page               = $page;
 		$items                    = array_key_exists('items', $page) ? $page['items'] : $page;

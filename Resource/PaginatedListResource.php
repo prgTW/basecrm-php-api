@@ -62,7 +62,7 @@ abstract class PaginatedListResource extends ListResource
 			}
 		}
 
-		return new Page($data, $childResourceName);
+		return new Page($data);
 	}
 
 

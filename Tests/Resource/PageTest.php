@@ -16,7 +16,7 @@ class PageTest extends AbstractTest
 				new Lead(),
 				new Lead(),
 			]
-		], 'lead');
+		]);
 
 		foreach ($page as $resource)
 		{
