@@ -16,7 +16,7 @@ class SourcesTest extends AbstractTest
 		$client = \Mockery::mock(GuzzleClient::class);
 		$client
 			->shouldReceive('request')
-			->twice()
+			->once()
 			->with('GET', sprintf('%s/%s/sources.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
 			->andReturn($this->getResponse(200, '
 				[
@@ -49,6 +49,7 @@ class SourcesTest extends AbstractTest
 		foreach ($sources as $source)
 		{
 			$this->assertInstanceOf(Source::class, $source);
+			$this->assertEquals($i, $source->id);
 			$this->assertEquals('test', $source->name);
 
 			$client
@@ -202,6 +203,6 @@ class SourcesTest extends AbstractTest
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		$result  = $sources->delete(123);
-		$this->assertNull($result);
+		$this->assertTrue($result);
 	}
 }
