@@ -5,6 +5,9 @@ namespace prgTW\BaseCRM\Service\Behavior;
 use prgTW\BaseCRM\Service\Detached\Reminder;
 use prgTW\BaseCRM\Service\Reminders;
 
+/**
+ * @method Reminders getReminders()
+ */
 trait RemindableTrait
 {
 	/**

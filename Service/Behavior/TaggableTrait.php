@@ -6,6 +6,10 @@ use prgTW\BaseCRM\Service\Detached\Tag;
 use prgTW\BaseCRM\Service\Tags;
 use prgTW\BaseCRM\Utils\TagAppId;
 
+/**
+ * @method string getClassNameOnly()
+ * @method Tags   getTags()
+ */
 trait TaggableTrait
 {
 	/**

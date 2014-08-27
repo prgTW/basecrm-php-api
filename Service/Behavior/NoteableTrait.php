@@ -5,6 +5,9 @@ namespace prgTW\BaseCRM\Service\Behavior;
 use prgTW\BaseCRM\Service\Detached\Note;
 use prgTW\BaseCRM\Service\Notes;
 
+/**
+ * @method Notes getNotes()
+ */
 trait NoteableTrait
 {
 	/**
