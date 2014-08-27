@@ -4,9 +4,8 @@ namespace prgTW\BaseCRM\Tests\Resource;
 
 use prgTW\BaseCRM\Resource\Page;
 use prgTW\BaseCRM\Service\Detached\Lead;
-use prgTW\BaseCRM\Tests\AbstractTest;
 
-class PageTest extends AbstractTest
+class PageTest extends \PHPUnit_Framework_TestCase
 {
 	public function testPage()
 	{

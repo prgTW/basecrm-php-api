@@ -2,10 +2,9 @@
 
 namespace prgTW\BaseCRM\Tests\Utils;
 
-use prgTW\BaseCRM\Tests\AbstractTest;
 use prgTW\BaseCRM\Utils\Currency;
 
-class CurrencyTest extends AbstractTest
+class CurrencyTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @expectedException \InvalidArgumentException

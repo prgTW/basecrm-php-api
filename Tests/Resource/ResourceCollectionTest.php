@@ -5,10 +5,9 @@ namespace prgTW\BaseCRM\Tests\Resource;
 use prgTW\BaseCRM\Resource\ResourceCollection;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Source;
-use prgTW\BaseCRM\Tests\AbstractTest;
 use prgTW\BaseCRM\Transport\Transport;
 
-class ResourceCollectionTest extends AbstractTest
+class ResourceCollectionTest extends \PHPUnit_Framework_TestCase
 {
 	/** @var array|Resource[] */
 	protected $resources;
