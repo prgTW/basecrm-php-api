@@ -22,11 +22,12 @@ trait RemindableTrait
 		$reminder          = new Reminder();
 		$reminder->content = $content;
 		$reminder->done    = $done;
-		$reminder->remind  = null !== $date;
+		$reminder->remind  = false;
 		if (null !== $date)
 		{
-			$reminder->date = $date->format('Y/m/d');
-			$reminder->hour = $date->format('H');
+			$reminder->remind = true;
+			$reminder->date   = $date->format('Y/m/d');
+			$reminder->hour   = $date->format('H');
 		}
 
 		/** @var Reminders $reminders */
