@@ -22,7 +22,7 @@ trait TaggableTrait
 		$taggableType = $tag->getName();
 		$taggableId   = $this->id;
 
-		$tag               = (new Tag);
+		$tag               = new Tag;
 		$tag->appId        = $appId;
 		$tag->taggableType = $taggableType;
 		$tag->taggableId   = $taggableId;
