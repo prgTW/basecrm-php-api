@@ -3,7 +3,7 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
-use prgTW\BaseCRM\Utils\Currency;
+use prgTW\BaseCRM\Service\Enum\Currency;
 
 /**
  * @property-read int      id

@@ -2,11 +2,11 @@
 
 namespace prgTW\BaseCRM\Tests\Utils;
 
-use prgTW\BaseCRM\Utils\Currency;
-use prgTW\BaseCRM\Utils\DealStage;
-use prgTW\BaseCRM\Utils\NamedEnum;
+use prgTW\BaseCRM\Service\Enum\Currency;
+use prgTW\BaseCRM\Service\Enum\NamedEnum;
+use prgTW\BaseCRM\Service\Enum\TagAppId;
 
-class EnumTest extends \PHPUnit_Framework_TestCase
+class NamesEnumTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provideEnumClasses
@@ -39,7 +39,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 			[Currency::class],
-			[DealStage::class],
+			[TagAppId::class],
 		];
 	}
 
@@ -84,16 +84,9 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 			[Currency::class, 9, 'DKK', 'Danish Kroner'],
 			[Currency::class, 10, 'NZD', 'New Zealand Dollar'],
 			[Currency::class, 11, 'INR', 'Indian Rupee'],
-			[DealStage::class, 'incoming', 'INCOMING', 'incoming'],
-			[DealStage::class, 'qualified', 'QUALIFIED', 'qualified'],
-			[DealStage::class, 'quote', 'QUOTE', 'quote'],
-			[DealStage::class, 'custom1', 'CUSTOM1', 'custom1'],
-			[DealStage::class, 'custom2', 'CUSTOM2', 'custom2'],
-			[DealStage::class, 'custom3', 'CUSTOM3', 'custom3'],
-			[DealStage::class, 'closure', 'CLOSURE', 'closure'],
-			[DealStage::class, 'won', 'WON', 'won'],
-			[DealStage::class, 'lost', 'LOST', 'lost'],
-			[DealStage::class, 'unqualified', 'UNQUALIFIED', 'unqualified'],
+			[TagAppId::class, 1, 'DEALS', 'Deal'],
+			[TagAppId::class, 4, 'CONTACTS', 'Contact'],
+			[TagAppId::class, 5, 'LEADS', 'Lead'],
 		];
 	}
 }

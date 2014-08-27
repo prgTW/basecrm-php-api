@@ -1,6 +1,8 @@
 <?php
 
-namespace prgTW\BaseCRM\Utils;
+namespace prgTW\BaseCRM\Service\Enum;
+
+use MyCLabs\Enum\Enum;
 
 /**
  * @method static DealStage INCOMING()
@@ -14,7 +16,7 @@ namespace prgTW\BaseCRM\Utils;
  * @method static DealStage LOST()
  * @method static DealStage UNQUALIFIED()
  */
-class DealStage extends NamedEnum
+class DealStage extends Enum
 {
 	const INCOMING    = 'incoming';
 	const QUALIFIED   = 'qualified';
@@ -26,17 +28,4 @@ class DealStage extends NamedEnum
 	const WON         = 'won';
 	const LOST        = 'lost';
 	const UNQUALIFIED = 'unqualified';
-
-	protected static $names = [
-		self::INCOMING    => 'incoming',
-		self::QUALIFIED   => 'qualified',
-		self::QUOTE       => 'quote',
-		self::CUSTOM1     => 'custom1',
-		self::CUSTOM2     => 'custom2',
-		self::CUSTOM3     => 'custom3',
-		self::CLOSURE     => 'closure',
-		self::WON         => 'won',
-		self::LOST        => 'lost',
-		self::UNQUALIFIED => 'unqualified',
-	];
 }

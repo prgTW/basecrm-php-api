@@ -5,8 +5,8 @@ namespace prgTW\BaseCRM\Tests\Service;
 use prgTW\BaseCRM\BaseCrm;
 use prgTW\BaseCRM\Client\GuzzleClient;
 use prgTW\BaseCRM\Resource\Resource;
+use prgTW\BaseCRM\Service\Enum\Currency;
 use prgTW\BaseCRM\Tests\AbstractTest;
-use prgTW\BaseCRM\Utils\Currency;
 
 class AccountTest extends AbstractTest
 {

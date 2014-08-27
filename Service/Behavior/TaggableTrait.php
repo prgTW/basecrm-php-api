@@ -4,8 +4,8 @@ namespace prgTW\BaseCRM\Service\Behavior;
 
 use prgTW\BaseCRM\Resource\ResourceCollection;
 use prgTW\BaseCRM\Service\Detached\Tag;
+use prgTW\BaseCRM\Service\Enum\TagAppId;
 use prgTW\BaseCRM\Service\Tags;
-use prgTW\BaseCRM\Utils\TagAppId;
 
 /**
  * @method string getClassNameOnly()

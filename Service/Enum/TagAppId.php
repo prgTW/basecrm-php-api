@@ -1,6 +1,6 @@
 <?php
 
-namespace prgTW\BaseCRM\Utils;
+namespace prgTW\BaseCRM\Service\Enum;
 
 /**
  * @method static TagAppId DEALS()

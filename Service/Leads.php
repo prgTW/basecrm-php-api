@@ -3,6 +3,8 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\PaginatedListResource;
+use prgTW\BaseCRM\Resource\ResourceCollection;
+use prgTW\BaseCRM\Service\Enum\LeadsSortBy;
 
 class Leads extends PaginatedListResource
 {
@@ -12,13 +14,18 @@ class Leads extends PaginatedListResource
 		return self::ENDPOINT_LEADS;
 	}
 
-	/** {@inheritdoc} */
-	public function all($page = 1, $sortBy = null)
+	/**
+	 * @param int         $page
+	 * @param LeadsSortBy $sortBy
+	 *
+	 * @return ResourceCollection
+	 */
+	public function all($page = 1, LeadsSortBy $sortBy = null)
 	{
 		$query = [];
 		if (null !== $sortBy)
 		{
-			$query['sort_by'] = $sortBy;
+			$query['sort_by'] = $sortBy->getValue();
 		}
 
 		return parent::getPage($page, $query);

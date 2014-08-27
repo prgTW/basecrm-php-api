@@ -6,6 +6,7 @@ use prgTW\BaseCRM\Client\ClientInterface;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Account;
 use prgTW\BaseCRM\Service\Contacts;
+use prgTW\BaseCRM\Service\Deals;
 use prgTW\BaseCRM\Service\Leads;
 use prgTW\BaseCRM\Service\Sources;
 use prgTW\BaseCRM\Service\Tags;
@@ -15,6 +16,7 @@ use prgTW\BaseCRM\Transport\Transport;
  * @method Account getAccount()
  * @method Contacts getContacts()
  * @method Sources getSources()
+ * @method Deals getDeals()
  * @method Leads getLeads()
  * @method Tags getTaggings()
  */
@@ -38,6 +40,7 @@ class BaseCrm extends Resource
 	{
 		$this->setSubResources([
 			Account::class,
+			Deals::class,
 			Contacts::class,
 			Sources::class,
 			Leads::class,
