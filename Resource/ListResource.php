@@ -10,10 +10,23 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 {
 	use CreateResource;
 
+	/** @var ResourceCollection */
+	protected $collection;
+
+	/** @var array */
+	private $query;
+
 	/** {@inheritdoc} */
 	public function __construct(Transport $transport, $uri)
 	{
 		parent::__construct($transport, $uri);
+		$this->reset();
+	}
+
+	protected function reset()
+	{
+		$this->collection = null;
+		$this->query      = null;
 	}
 
 	/**
@@ -51,13 +64,19 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	 */
 	public function all($query = [])
 	{
+		if (null !== $this->collection && $this->query === $query)
+		{
+			return $this->collection;
+		}
+
 		$uri     = $this->getFullUri();
 		$options = [] === $query ? [] : ['query' => $query];
 		$data    = $this->transport->get($uri, null, $options);
 
-		$data = $this->postAll($data);
+		$this->query      = $options;
+		$this->collection = $this->postAll($data);
 
-		return $data;
+		return $this->collection;
 	}
 
 	/** {@inheritdoc} */
