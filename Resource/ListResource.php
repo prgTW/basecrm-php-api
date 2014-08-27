@@ -6,7 +6,7 @@ use Doctrine\Common\Inflector\Inflector;
 use prgTW\BaseCRM\Resource\Partial\CreateResource;
 use prgTW\BaseCRM\Transport\Transport;
 
-abstract class ListResource extends Resource implements \IteratorAggregate, \Countable
+abstract class ListResource extends Resource implements \ArrayAccess, \IteratorAggregate, \Countable
 {
 	use CreateResource;
 
@@ -26,7 +26,7 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 	protected function reset()
 	{
 		$this->collection = null;
-		$this->query      = null;
+		$this->query      = [];
 	}
 
 	/**
@@ -112,5 +112,37 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 		}
 
 		return new ResourceCollection($data, $childResourceName);
+	}
+
+	/** {@inheritdoc} */
+	public function offsetExists($offset)
+	{
+		$this->all($this->query);
+
+		return $this->collection->offsetExists($offset);
+	}
+
+	/** {@inheritdoc} */
+	public function offsetGet($offset)
+	{
+		$this->all($this->query);
+
+		return $this->collection->offsetGet($offset);
+	}
+
+	/** {@inheritdoc} */
+	public function offsetSet($offset, $value)
+	{
+		$this->all($this->query);
+
+		return $this->collection->offsetSet($offset, $value);
+	}
+
+	/** {@inheritdoc} */
+	public function offsetUnset($offset)
+	{
+		$this->all($this->query);
+
+		return $this->collection->offsetUnset($offset);
 	}
 }
