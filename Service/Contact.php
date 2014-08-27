@@ -25,7 +25,7 @@ class Contact extends InstanceResource
 	protected function init()
 	{
 		$this->setSubResources([
-//			Contacts::class,
+			Contacts::class,
 //			Deals::class,
 			Notes::class,
 			Reminders::class,
