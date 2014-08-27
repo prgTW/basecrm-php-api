@@ -3,7 +3,6 @@
 namespace prgTW\BaseCRM\Client;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
-use GuzzleHttp\Message\ResponseInterface;
 
 /**
  * @codeCoverageIgnore
