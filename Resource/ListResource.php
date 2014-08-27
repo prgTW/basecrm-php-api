@@ -27,7 +27,6 @@ abstract class ListResource extends Resource implements \IteratorAggregate, \Cou
 		$uri               = sprintf('%s/%s', $this->uri, $id);
 		/** @var InstanceResource $resource */
 		$resource = new $instanceClassName($this->transport, $uri);
-		$resource->get();
 
 		return $resource;
 	}
