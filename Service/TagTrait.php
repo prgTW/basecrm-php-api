@@ -2,6 +2,9 @@
 
 namespace prgTW\BaseCRM\Service;
 
+/**
+ * @property array data
+ */
 trait TagTrait
 {
 	/** {@inheritdoc} */
