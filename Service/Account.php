@@ -24,8 +24,6 @@ class Account extends InstanceResource
 	 */
 	protected function getId()
 	{
-		$this->getIfNecessary();
-
 		return $this->data['id'];
 	}
 
@@ -47,8 +45,6 @@ class Account extends InstanceResource
 	 */
 	protected function getCurrency()
 	{
-		$this->getIfNecessary();
-
 		return new Currency($this->data['currency_id']);
 	}
 
@@ -57,8 +53,6 @@ class Account extends InstanceResource
 	 */
 	protected function getName()
 	{
-		$this->getIfNecessary();
-
 		return $this->data['name'];
 	}
 
@@ -67,8 +61,6 @@ class Account extends InstanceResource
 	 */
 	protected function getTimezone()
 	{
-		$this->getIfNecessary();
-
 		return $this->data['timezone'];
 	}
 
@@ -85,24 +77,4 @@ class Account extends InstanceResource
 		unset($data['currency']);
 		unset($data['currency_name']);
 	}
-
-	protected function getIfNecessary()
-	{
-		if (null === $this->data)
-		{
-			$this->get();
-		}
-	}
-
-	/** {@inheritdoc} */
-	public function __get($name)
-	{
-		if (null === $this->data)
-		{
-			$this->getIfNecessary();
-		}
-
-		return parent::__get($name);
-	}
-
 }

@@ -2,7 +2,7 @@
 
 namespace prgTW\BaseCRM\Resource;
 
-abstract class InstanceResource extends Resource
+abstract class InstanceResource extends LazyLoadedResource
 {
 	/**
 	 * @throws \InvalidArgumentException when resource key is not found in the response
@@ -35,5 +35,11 @@ abstract class InstanceResource extends Resource
 		$this->hydrate($response);
 
 		return $this;
+	}
+
+	/** {@inheritdoc} */
+	protected function lazyLoad()
+	{
+		$this->get();
 	}
 }
