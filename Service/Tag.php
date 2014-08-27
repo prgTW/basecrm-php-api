@@ -20,7 +20,7 @@ class Tag extends InstanceResource
 	}
 
 	/** {@inheritdoc} */
-	public function save(array $fieldNames)
+	public function save(array $fieldNames = [])
 	{
 		throw new ResourceException('This resource doesn\'t support this operation');
 	}

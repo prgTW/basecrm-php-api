@@ -17,7 +17,7 @@ class Tags extends ListResource
 	}
 
 	/** {@inheritdoc} */
-	public function create(DetachedResource $resource, array $fieldNames, $useKey = true)
+	public function create(DetachedResource $resource, array $fieldNames = [], $useKey = true)
 	{
 		$fieldNames = array_intersect_key($fieldNames, [
 			'app_id',

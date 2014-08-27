@@ -29,7 +29,7 @@ class Deal extends InstanceResource
 	}
 
 	/** {@inheritdoc} */
-	public function save(array $fieldNames)
+	public function save(array $fieldNames = [])
 	{
 		$fieldNames = array_intersect_key($fieldNames, [
 			'name',

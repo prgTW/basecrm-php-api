@@ -33,7 +33,7 @@ class Leads extends PaginatedListResource
 	}
 
 	/** {@inheritdoc} */
-	public function create(DetachedResource $resource, array $fieldNames, $useKey = true)
+	public function create(DetachedResource $resource, array $fieldNames = [], $useKey = true)
 	{
 		$fieldNames = array_intersect_key($fieldNames, [
 			'last_name',
