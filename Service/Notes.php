@@ -16,7 +16,7 @@ class Notes extends ListResource
 	/** {@inheritdoc} */
 	public function create(DetachedResource $resource, array $fieldNames = [], $useKey = true)
 	{
-		$fieldNames = array_intersect_key($fieldNames, [
+		$fieldNames = array_intersect($fieldNames, [
 			'content',
 		]);
 

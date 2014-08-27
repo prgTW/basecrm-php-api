@@ -65,16 +65,20 @@ class Account extends InstanceResource
 	}
 
 	/** {@inheritdoc} */
-	protected function postHydrate(array $data)
+	public function save(array $fieldNames = [])
 	{
-		$this->currency = Currency::fromName($data['currency_name']);
+		$fieldNames = array_intersect($fieldNames, [
+			'name',
+			'timezone',
+			'currency_id',
+		]);
+
+		return parent::save($fieldNames);
 	}
 
 	/** {@inheritdoc} */
-	protected function postDehydrate(array &$data)
+	protected function postHydrate(array $data)
 	{
-		unset($data['id']);
-		unset($data['currency']);
-		unset($data['currency_name']);
+		$this->currency = Currency::fromName($data['currency_name']);
 	}
 }

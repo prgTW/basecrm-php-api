@@ -27,7 +27,7 @@ class Contacts extends PaginatedListResource
 	/** {@inheritdoc} */
 	public function create(DetachedResource $resource, array $fieldNames = [], $useKey = true)
 	{
-		$fieldNames = array_intersect_key($fieldNames, [
+		$fieldNames = array_intersect($fieldNames, [
 			'name',
 			'last_name',
 			'first_name',

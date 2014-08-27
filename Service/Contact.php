@@ -35,7 +35,7 @@ class Contact extends InstanceResource
 	/** {@inheritdoc} */
 	public function save(array $fieldNames = [])
 	{
-		$fieldNames = array_intersect_key($fieldNames, [
+		$fieldNames = array_intersect($fieldNames, [
 			'name',
 			'last_name',
 			'first_name',
