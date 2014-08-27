@@ -6,7 +6,11 @@ use prgTW\BaseCRM\Resource\DetachedResource;
 use prgTW\BaseCRM\Resource\InstanceResource;
 use prgTW\BaseCRM\Resource\ListResource;
 use prgTW\BaseCRM\Resource\ResourceCollection;
+use prgTW\BaseCRM\Transport\Transport;
 
+/**
+ * @property Transport transport
+ */
 trait CreateResource
 {
 	/**
@@ -53,4 +57,12 @@ trait CreateResource
 
 		return $data;
 	}
+
+	abstract function getResourceName($resourceClassName = null);
+
+	abstract function getChildResourceName($resourceClassName = null);
+
+	abstract function getObjectFromArray(array $params, $instanceClassName = null, $idParam = 'id');
+
+	abstract function getFullUri($suffix = '');
 }
