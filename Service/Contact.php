@@ -4,12 +4,27 @@ namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
 
+/**
+ * @method Notes getNotes()
+ * @method Reminders getReminders()
+ */
 class Contact extends InstanceResource
 {
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{
 		return self::ENDPOINT_SALES;
+	}
+
+	/** {@inheritdoc} */
+	protected function init()
+	{
+		$this->setSubResources([
+//			Contacts::class,
+//			Deals::class,
+			Notes::class,
+			Reminders::class,
+		]);
 	}
 
 	/** {@inheritdoc} */
