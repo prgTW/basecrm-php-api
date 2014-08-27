@@ -70,7 +70,9 @@ class SourcesTest extends AbstractTest
 						}
 					}
 				'));
-			$source->save();
+			$source->save([
+				'name',
+			]);
 			++$i;
 		}
 	}
@@ -156,7 +158,9 @@ class SourcesTest extends AbstractTest
 			'));
 
 		$source->name = 'modified';
-		$source->save();
+		$source->save([
+			'name',
+		]);
 		$this->assertEquals('modified', $source->name);
 	}
 
@@ -186,7 +190,9 @@ class SourcesTest extends AbstractTest
 		/** @var Source $source */
 		$newSource = (new DetachedSource);
 		$newSource->name = 'test';
-		$source = $sources->create($newSource);
+		$source = $sources->create($newSource, [
+			'name',
+		]);
 		$this->assertInstanceOf(Source::class, $source);
 		$this->assertEquals(405, $source->id);
 		$this->assertEquals('test', $source->name);

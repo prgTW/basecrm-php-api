@@ -11,4 +11,18 @@ class Reminder extends InstanceResource
 	{
 		return self::ENDPOINT_SALES;
 	}
+
+	/** {@inheritdoc} */
+	public function save(array $fieldNames)
+	{
+		$fieldNames = array_intersect_key($fieldNames, [
+			'content',
+			'done',
+			'remind',
+			'date',
+			'hour',
+		]);
+
+		return parent::save($fieldNames);
+	}
 }

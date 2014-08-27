@@ -17,12 +17,13 @@ trait CreateResource
 {
 	/**
 	 * @param DetachedResource $resource
+	 * @param array            $fieldNames
 	 * @param bool             $useKey
 	 *
 	 * @throws \InvalidArgumentException on resource scopes mismatch
 	 * @return Resource|ResourceCollection
 	 */
-	public function create(DetachedResource $resource, $useKey = true)
+	public function create(DetachedResource $resource, array $fieldNames = [], $useKey = true)
 	{
 		$newResourceName   = $resource->getResourceName();
 		$childResourceName = $this->getChildResourceName();
@@ -35,7 +36,7 @@ trait CreateResource
 
 		$uri        = $this->getFullUri();
 		$options    = [];
-		$dehydrated = $resource->dehydrate();
+		$dehydrated = $resource->dehydrate($fieldNames);
 		if (true === $useKey)
 		{
 			$options['query'] = [$childResourceName => $dehydrated];

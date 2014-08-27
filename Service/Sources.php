@@ -2,6 +2,7 @@
 
 namespace prgTW\BaseCRM\Service;
 
+use prgTW\BaseCRM\Resource\DetachedResource;
 use prgTW\BaseCRM\Resource\ListResource;
 use prgTW\BaseCRM\Resource\ResourceCollection;
 
@@ -29,4 +30,13 @@ class Sources extends ListResource
 		return parent::all($query);
 	}
 
+	/** {@inheritdoc} */
+	public function create(DetachedResource $resource, array $fieldNames, $useKey = true)
+	{
+		$fieldNames = array_intersect_key($fieldNames, [
+			'name',
+		]);
+
+		return parent::create($resource, $fieldNames, $useKey);
+	}
 }

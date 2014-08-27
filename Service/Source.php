@@ -13,10 +13,12 @@ class Source extends InstanceResource
 	}
 
 	/** {@inheritdoc} */
-	protected function preDehydrate()
+	public function save(array $fieldNames)
 	{
-		return array_intersect_key($this->data, array_flip([
+		$fieldNames = array_intersect_key($fieldNames, [
 			'name',
-		]));
+		]);
+
+		return parent::save($fieldNames);
 	}
 }

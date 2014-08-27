@@ -35,7 +35,12 @@ trait TaggableTrait
 
 		/** @var Tags $tags */
 		$tags   = $this->getTags();
-		$result = $tags->create($tag, false);
+		$result = $tags->create($tag, [
+			'app_id',
+			'taggable_type',
+			'taggable_id',
+			'tag_list',
+		], false);
 
 		return $result;
 	}

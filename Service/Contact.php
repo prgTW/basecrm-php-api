@@ -26,16 +26,16 @@ class Contact extends InstanceResource
 	{
 		$this->setSubResources([
 			Contacts::class,
-//			Deals::class,
+			Deals::class,
 			Notes::class,
 			Reminders::class,
 		]);
 	}
 
 	/** {@inheritdoc} */
-	protected function preDehydrate()
+	public function save(array $fieldNames)
 	{
-		return array_intersect_key($this->data, array_flip([
+		$fieldNames = array_intersect_key($fieldNames, [
 			'name',
 			'last_name',
 			'first_name',
@@ -57,6 +57,8 @@ class Contact extends InstanceResource
 			'fax',
 			'tag_list',
 			'private',
-		]));
+		]);
+
+		return parent::save($fieldNames);
 	}
 }

@@ -27,12 +27,26 @@ class Lead extends InstanceResource
 	}
 
 	/** {@inheritdoc} */
-	protected function preDehydrate()
+	public function save(array $fieldNames)
 	{
-		return array_intersect_key($this->data, array_flip([
+		$fieldNames = array_intersect_key($fieldNames, [
 			'first_name',
 			'last_name',
 			'company_name',
-		]));
+			'email',
+			'phone',
+			'mobile',
+			'twitter',
+			'skype',
+			'facebook',
+			'linkedin',
+			'address',
+			'city',
+			'country',
+			'title',
+			'description',
+		]);
+
+		return parent::save($fieldNames);
 	}
 }

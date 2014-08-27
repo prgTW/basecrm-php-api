@@ -20,13 +20,15 @@ abstract class InstanceResource extends LazyLoadedResource
 	}
 
 	/**
+	 * @param array $fieldNames
+	 *
 	 * @return $this
 	 */
-	public function save()
+	public function save(array $fieldNames = [])
 	{
 		$resourceName = $this->getResourceName();
 		$uri          = $this->getFullUri();
-		$data         = $this->dehydrate();
+		$data         = $this->dehydrate($fieldNames);
 		$response     = $this->transport->put($uri, $resourceName, [
 			'query' => [
 				$resourceName => $data,

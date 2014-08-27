@@ -7,5 +7,4 @@ use prgTW\BaseCRM\Service\TagTrait;
 
 class Tag extends DetachedResource
 {
-	use TagTrait;
 }

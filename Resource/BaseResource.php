@@ -82,25 +82,37 @@ abstract class BaseResource
 	}
 
 	/**
+	 * @param array $fieldNames
+	 *
 	 * @throws ResourceException when dehydration has been stopped
 	 * @return array
 	 */
-	public function dehydrate()
+	public function dehydrate(array $fieldNames = [])
 	{
-		$data = $this->preDehydrate();
-		if (false === $data)
+		$result = $this->preDehydrate($fieldNames);
+		if (false === $result)
 		{
 			//@codeCoverageIgnoreStart
 			throw new ResourceException('Dehydration has been stopped');
 			//@codeCoverageIgnoreEnd
 		}
 
-		if (false === is_array($data))
+		if (is_array($result))
 		{
-			foreach ($this->data as $key => $value)
+			$fieldNames = $result;
+		}
+
+		$data = [];
+		if ([] === $fieldNames)
+		{
+			$data = $this->data;
+		}
+		else
+		{
+			foreach ($fieldNames as $fieldName)
 			{
-				$getter     = sprintf('get%s', ucfirst(Inflector::camelize($key)));
-				$data[$key] = method_exists($this, $getter) ? $this->$getter() : $this->$key;
+				$getter           = sprintf('get%s', ucfirst(Inflector::camelize($fieldName)));
+				$data[$fieldName] = method_exists($this, $getter) ? $this->$getter() : $this->data[$fieldName];
 			}
 		}
 
@@ -158,11 +170,13 @@ abstract class BaseResource
 	}
 
 	/**
-	 * @return array|bool False: stop dehydration, array: deserialized data
+	 * @param array $fieldNames
+	 *
+	 * @return array|bool False: stop dehydration, array: new field names
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function preDehydrate()
+	protected function preDehydrate(array $fieldNames)
 	{
 
 	}

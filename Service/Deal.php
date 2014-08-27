@@ -29,9 +29,9 @@ class Deal extends InstanceResource
 	}
 
 	/** {@inheritdoc} */
-	protected function preDehydrate()
+	public function save(array $fieldNames)
 	{
-		return array_intersect_key($this->data, array_flip([
+		$fieldNames = array_intersect_key($fieldNames, [
 			'name',
 			'entity_id',
 			'scope',
@@ -40,6 +40,8 @@ class Deal extends InstanceResource
 			'contact_ids',
 			'source_id',
 			'stage',
-		]));
+		]);
+
+		return parent::save($fieldNames);
 	}
 }

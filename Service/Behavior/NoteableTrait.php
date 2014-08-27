@@ -22,7 +22,9 @@ trait NoteableTrait
 
 		/** @var Notes $notes */
 		$notes  = $this->getNotes();
-		$result = $notes->create($note, false);
+		$result = $notes->create($note, [
+			'content',
+		], false);
 
 		return $result;
 	}
