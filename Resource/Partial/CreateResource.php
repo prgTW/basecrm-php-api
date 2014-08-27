@@ -10,6 +10,10 @@ use prgTW\BaseCRM\Transport\Transport;
 
 /**
  * @property Transport transport
+ * @method string getResourceName($resourceClassName = null)
+ * @method string getChildResourceName($resourceClassName = null)
+ * @method string getObjectFromArray(array $params, $instanceClassName = null, $idParam = 'id')
+ * @method string getFullUri($suffix = '')
  */
 trait CreateResource
 {
@@ -57,12 +61,4 @@ trait CreateResource
 
 		return $data;
 	}
-
-	abstract function getResourceName($resourceClassName = null);
-
-	abstract function getChildResourceName($resourceClassName = null);
-
-	abstract function getObjectFromArray(array $params, $instanceClassName = null, $idParam = 'id');
-
-	abstract function getFullUri($suffix = '');
 }
