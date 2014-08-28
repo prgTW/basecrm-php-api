@@ -34,7 +34,9 @@ abstract class InstanceResource extends LazyLoadedResource
 			$fieldNames = array_keys($this->data);
 			if ([] === $fieldNames)
 			{
+				//@codeCoverageIgnoreStart
 				throw new ResourceException('No data to save');
+				//@codeCoverageIgnoreEnd
 			}
 
 			return $this->save($fieldNames);
