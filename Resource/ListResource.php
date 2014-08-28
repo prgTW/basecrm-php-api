@@ -135,7 +135,7 @@ abstract class ListResource extends Resource implements \ArrayAccess, \IteratorA
 	{
 		$this->all($this->query);
 
-		return $this->collection->offsetSet($offset, $value);
+		$this->collection->offsetSet($offset, $value);
 	}
 
 	/** {@inheritdoc} */
