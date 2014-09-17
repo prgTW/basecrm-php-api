@@ -65,7 +65,6 @@ abstract class PaginatedListResource extends ListResource
 		return new Page($data);
 	}
 
-
 	/** {@inheritdoc} */
 	public function count()
 	{
