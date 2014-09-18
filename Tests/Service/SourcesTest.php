@@ -4,6 +4,7 @@ namespace prgTW\BaseCRM\Tests\Service;
 
 use prgTW\BaseCRM\BaseCrm;
 use prgTW\BaseCRM\Client\GuzzleClient;
+use prgTW\BaseCRM\Resource\CustomFieldsCollection;
 use prgTW\BaseCRM\Resource\Resource;
 use prgTW\BaseCRM\Service\Detached\Source as DetachedSource;
 use prgTW\BaseCRM\Service\Source;
@@ -174,6 +175,7 @@ class SourcesTest extends AbstractTest
 				'query' => [
 					'source' => [
 						'name' => 'test',
+						'custom_fields' => [],
 					],
 				],
 			]))
@@ -188,9 +190,9 @@ class SourcesTest extends AbstractTest
 		$baseCrm = new BaseCrm('', $client);
 		$sources = $baseCrm->getSources();
 		/** @var Source $source */
-		$newSource = (new DetachedSource);
+		$newSource       = (new DetachedSource);
 		$newSource->name = 'test';
-		$source = $sources->create($newSource, [
+		$source          = $sources->create($newSource, [
 			'name',
 		]);
 		$this->assertInstanceOf(Source::class, $source);
@@ -210,5 +212,88 @@ class SourcesTest extends AbstractTest
 		$sources = $baseCrm->getSources();
 		$result  = $sources->delete(123);
 		$this->assertTrue($result);
+	}
+
+	public function testCustomFields()
+	{
+		$client = \Mockery::mock(GuzzleClient::class);
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('GET', sprintf('%s/%s/sources.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
+			->andReturn($this->getResponse(200, '
+				[
+					{
+					"source": {
+						"name": "test",
+						"id": 1,
+						"custom_fields": []
+					}
+				},
+				{
+					"source": {
+						"name": "test",
+						"id": 2,
+						"custom_fields": {
+							"custom1": {
+								"id": null
+							}
+						}
+					}
+				},
+				{
+					"source": {
+						"name": "test",
+						"id": 3,
+						"custom_fields": {
+							"custom1": {
+								"id": null
+							},
+							"custom2": {
+								"id": 12345,
+								"value": "some value"
+							}
+						}
+					}
+				}
+				]
+			'));
+		$baseCrm = new BaseCrm('', $client);
+		$sources = $baseCrm->getSources()->all();
+
+		$i = 1;
+		/** @var Source $source */
+		foreach ($sources as $source)
+		{
+			$customFieldsCollection = $source->getCustomFields();
+			$this->assertInstanceOf(CustomFieldsCollection::class, $customFieldsCollection);
+			switch ($i)
+			{
+				case 1:
+					$this->assertCount(0, $customFieldsCollection);
+					$this->assertArrayNotHasKey('custom1', $customFieldsCollection);
+					$this->assertEquals([], $customFieldsCollection->toArray());
+					break;
+
+				case 2:
+					$this->assertCount(1, $customFieldsCollection);
+					$this->assertArrayHasKey('custom1', $customFieldsCollection);
+					$this->assertNull($customFieldsCollection['custom1']->getId());
+					$this->assertArrayNotHasKey('custom2', $customFieldsCollection);
+					$this->assertEquals(['custom1' => null], $customFieldsCollection->toArray());
+					break;
+
+				case 3:
+					$this->assertCount(2, $customFieldsCollection);
+					$this->assertArrayHasKey('custom1', $customFieldsCollection);
+					$this->assertArrayHasKey('custom2', $customFieldsCollection);
+					$this->assertEquals('custom2', $customFieldsCollection['custom2']->getName());
+					$this->assertEquals('12345', $customFieldsCollection['custom2']->getId());
+					$this->assertEquals('some value', $customFieldsCollection['custom2']->getValue());
+					$this->assertEquals(['custom1' => null, 'custom2' => 'some value'], $customFieldsCollection->toArray());
+					break;
+			}
+			++$i;
+		}
 	}
 }

@@ -3,9 +3,12 @@
 namespace prgTW\BaseCRM\Resource;
 
 use prgTW\BaseCRM\Exception\ResourceException;
+use prgTW\BaseCRM\Service\Behavior\CustomFieldsTrait;
 
 abstract class InstanceResource extends LazyLoadedResource
 {
+	use CustomFieldsTrait;
+
 	/**
 	 * @throws \InvalidArgumentException when resource key is not found in the response
 	 * @return $this
