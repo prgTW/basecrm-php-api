@@ -3,6 +3,7 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
+use prgTW\BaseCRM\Service\Behavior\CustomFieldsTrait;
 use prgTW\BaseCRM\Service\Behavior\TaggableTrait;
 
 /**
@@ -11,6 +12,7 @@ use prgTW\BaseCRM\Service\Behavior\TaggableTrait;
 class Lead extends InstanceResource
 {
 	use TaggableTrait;
+	use CustomFieldsTrait;
 
 	/** {@inheritdoc} */
 	protected function getEndpoint()

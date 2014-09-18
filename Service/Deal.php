@@ -3,6 +3,7 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
+use prgTW\BaseCRM\Service\Behavior\CustomFieldsTrait;
 use prgTW\BaseCRM\Service\Behavior\NoteableTrait;
 use prgTW\BaseCRM\Service\Behavior\RemindableTrait;
 
@@ -13,6 +14,7 @@ class Deal extends InstanceResource
 {
 	use NoteableTrait;
 	use RemindableTrait;
+	use CustomFieldsTrait;
 
 	/** {@inheritdoc} */
 	protected function getEndpoint()

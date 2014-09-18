@@ -3,9 +3,12 @@
 namespace prgTW\BaseCRM\Service;
 
 use prgTW\BaseCRM\Resource\InstanceResource;
+use prgTW\BaseCRM\Service\Behavior\CustomFieldsTrait;
 
 class Source extends InstanceResource
 {
+	use CustomFieldsTrait;
+
 	/** {@inheritdoc} */
 	protected function getEndpoint()
 	{
