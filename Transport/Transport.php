@@ -2,10 +2,13 @@
 
 namespace prgTW\BaseCRM\Transport;
 
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Message\ResponseInterface;
 use prgTW\BaseCRM\Client\ClientInterface;
 use prgTW\BaseCRM\Client\GuzzleClient;
-use prgTW\BaseCRM\Exception\RestException;
+use prgTW\BaseCRM\Exception\RepresentationErrorException;
 use prgTW\BaseCRM\Utils\Convert;
 
 class Transport
@@ -101,8 +104,10 @@ class Transport
 	 * @param ResponseInterface $response
 	 * @param string            $key
 	 *
-	 * @throws RestException
-	 * @throws \InvalidArgumentException when key is not found in response data
+	 * @throws RepresentationErrorException on 422 response
+	 * @throws ClientException on 4xx errors
+	 * @throws ServerException on 5xx errors
+	 * @throws BadResponseException when key is not found in response data
 	 * @return array|bool
 	 */
 	private function processResponse(ResponseInterface $response, $key = null)
@@ -116,6 +121,13 @@ class Transport
 		$decoded = $response->json();
 		$decoded = Convert::objectToArray($decoded);
 
+		if (422 == $status)
+		{
+			//@codeCoverageIgnoreStart
+			throw new RepresentationErrorException('', $this->client->getLastRequest(), $response);
+			//@codeCoverageIgnoreEnd
+		}
+
 		if (200 <= $status && 300 > $status)
 		{
 			$this->lastResponse = $response;
@@ -128,7 +140,8 @@ class Transport
 			if (false === array_key_exists($key, $decoded))
 			{
 				//@codeCoverageIgnoreStart
-				throw new \InvalidArgumentException(sprintf('Key "%s" not found in data', $key));
+				$message = sprintf('Key "%s" not found in data', $key);
+				throw new BadResponseException($message, $this->client->getLastRequest(), $response);
 				//@codeCoverageIgnoreEnd
 			}
 
@@ -136,7 +149,7 @@ class Transport
 		}
 
 		//@codeCoverageIgnoreStart
-		throw new RestException($response->getBody()->getContents(), $status);
+		throw BadResponseException::create($this->client->getLastRequest(), $response);
 		//@codeCoverageIgnoreEnd
 	}
 
