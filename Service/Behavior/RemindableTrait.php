@@ -41,7 +41,7 @@ trait RemindableTrait
 
 		/** @var Reminders $reminders */
 		$reminders = $this->getReminders();
-		$result    = $reminders->create($reminder, $fieldNames, false);
+		$result    = $reminders->create($reminder, $fieldNames);
 
 		return $result;
 	}

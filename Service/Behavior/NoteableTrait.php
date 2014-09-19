@@ -24,7 +24,7 @@ trait NoteableTrait
 		$notes  = $this->getNotes();
 		$result = $notes->create($note, [
 			'content',
-		], false);
+		]);
 
 		return $result;
 	}
