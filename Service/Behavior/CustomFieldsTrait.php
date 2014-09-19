@@ -5,6 +5,7 @@ namespace prgTW\BaseCRM\Service\Behavior;
 use Instantiator\Exception\InvalidArgumentException;
 use prgTW\BaseCRM\Resource\CustomField;
 use prgTW\BaseCRM\Resource\CustomFieldsCollection;
+use prgTW\BaseCRM\Resource\LazyLoadedResource;
 
 /**
  * @property-read array $data
@@ -25,7 +26,13 @@ trait CustomFieldsTrait
 			throw new InvalidArgumentException('fieldName is not string');
 		}
 
+		if ($this instanceof LazyLoadedResource)
+		{
+			$this->lazyLoadIfNecessary();
+		}
+
 		$key = $this->getCustomFieldsKey();
+
 		if (false === array_key_exists($key, $this->data))
 		{
 			return false;
@@ -63,6 +70,11 @@ trait CustomFieldsTrait
 	 */
 	public function setCustomField($name, $value)
 	{
+		if ($this instanceof LazyLoadedResource)
+		{
+			$this->lazyLoadIfNecessary();
+		}
+
 		$customField             = new CustomField($name, $value);
 		$key                     = $this->getCustomFieldsKey();
 		$this->data[$key][$name] = $customField->getData();
@@ -73,6 +85,11 @@ trait CustomFieldsTrait
 	 */
 	public function getCustomFields()
 	{
+		if ($this instanceof LazyLoadedResource)
+		{
+			$this->lazyLoadIfNecessary();
+		}
+
 		$key = $this->getCustomFieldsKey();
 
 		if (false === array_key_exists($key, $this->data))

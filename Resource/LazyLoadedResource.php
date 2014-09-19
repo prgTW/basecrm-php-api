@@ -7,12 +7,17 @@ abstract class LazyLoadedResource extends Resource
 	/** {@inheritdoc} */
 	public function __get($name)
 	{
+		$this->lazyLoadIfNecessary();
+
+		return parent::__get($name);
+	}
+
+	protected function lazyLoadIfNecessary()
+	{
 		if (null === $this->data)
 		{
 			$this->lazyLoad();
 		}
-
-		return parent::__get($name);
 	}
 
 	abstract protected function lazyLoad();
