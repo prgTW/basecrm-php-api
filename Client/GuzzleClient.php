@@ -3,14 +3,18 @@
 namespace prgTW\BaseCRM\Client;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Message\RequestInterface;
 
 /**
  * @codeCoverageIgnore
  */
-class GuzzleClient extends GuzzleHttpClient implements ClientInterface
+class GuzzleClient implements ClientInterface
 {
 	/** @var \GuzzleHttp\Client */
 	private $guzzle;
+
+	/** @var RequestInterface */
+	protected $lastRequest;
 
 	/**
 	 * @param string $method
@@ -21,14 +25,29 @@ class GuzzleClient extends GuzzleHttpClient implements ClientInterface
 	 */
 	public function request($method, $uri, array $options = [])
 	{
-		if (null === $this->guzzle)
-		{
-			$this->guzzle = new GuzzleHttpClient();
-		}
+		$this->lazyLoadGuzzle();
 
-		$request  = $this->guzzle->createRequest($method, $uri, $options);
-		$response = $this->guzzle->send($request);
+		$this->lastRequest = $this->guzzle->createRequest($method, $uri, $options);
+		$response          = $this->guzzle->send($this->lastRequest);
 
 		return $response;
+	}
+
+	/**
+	 * @return RequestInterface
+	 */
+	public function getLastRequest()
+	{
+		return $this->lastRequest;
+	}
+
+	protected function lazyLoadGuzzle()
+	{
+		if (null === $this->guzzle)
+		{
+			$this->guzzle = new GuzzleHttpClient([
+				'exceptions' => false,
+			]);
+		}
 	}
 }
