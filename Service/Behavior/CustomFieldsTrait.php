@@ -108,6 +108,6 @@ trait CustomFieldsTrait
 
 	protected function getCustomFieldsKey()
 	{
-		return 'custom_fields';
+		return 'custom_field_values';
 	}
 }

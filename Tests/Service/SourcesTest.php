@@ -174,8 +174,8 @@ class SourcesTest extends AbstractTest
 			->with('POST', sprintf('%s/%s/sources.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
 				'query' => [
 					'source' => [
-						'name' => 'test',
-						'custom_fields' => [],
+						'name'                => 'test',
+						'custom_field_values' => [],
 					],
 				],
 			]))
@@ -227,14 +227,14 @@ class SourcesTest extends AbstractTest
 					"source": {
 						"name": "test",
 						"id": 1,
-						"custom_fields": []
+						"custom_field_values": []
 					}
 				},
 				{
 					"source": {
 						"name": "test",
 						"id": 2,
-						"custom_fields": {
+						"custom_field_values": {
 							"custom1": {
 								"id": null
 							}
@@ -245,7 +245,7 @@ class SourcesTest extends AbstractTest
 					"source": {
 						"name": "test",
 						"id": 3,
-						"custom_fields": {
+						"custom_field_values": {
 							"custom1": {
 								"id": null
 							},
@@ -299,7 +299,7 @@ class SourcesTest extends AbstractTest
 
 	public function testLazyLoadingWithCustomFields()
 	{
-		$client = \Mockery::mock(GuzzleClient::class);
+		$client  = \Mockery::mock(GuzzleClient::class);
 		$baseCrm = new BaseCrm('', $client);
 		/** @var Source $source */
 		$source = $baseCrm->getSources()->get(123);
@@ -313,7 +313,7 @@ class SourcesTest extends AbstractTest
 					"source": {
 						"name": "test",
 						"id": 123,
-						"custom_fields": {
+						"custom_field_values": {
 							"custom1": {
 								"id": null
 							},

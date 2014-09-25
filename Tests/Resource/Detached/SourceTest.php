@@ -14,8 +14,8 @@ class SourceTest extends \PHPUnit_Framework_TestCase
 		$dehydrated = $source->dehydrate();
 
 		$this->assertEquals([
-			'id'            => 1,
-			'custom_fields' => [
+			'id'                  => 1,
+			'custom_field_values' => [
 				'custom1' => 'value1',
 			],
 		], $dehydrated);
