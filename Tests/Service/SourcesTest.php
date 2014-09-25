@@ -227,14 +227,14 @@ class SourcesTest extends AbstractTest
 					"source": {
 						"name": "test",
 						"id": 1,
-						"custom_field_values": []
+						"custom_fields": []
 					}
 				},
 				{
 					"source": {
 						"name": "test",
 						"id": 2,
-						"custom_field_values": {
+						"custom_fields": {
 							"custom1": {
 								"id": null
 							}
@@ -245,7 +245,7 @@ class SourcesTest extends AbstractTest
 					"source": {
 						"name": "test",
 						"id": 3,
-						"custom_field_values": {
+						"custom_fields": {
 							"custom1": {
 								"id": null
 							},
@@ -313,7 +313,7 @@ class SourcesTest extends AbstractTest
 					"source": {
 						"name": "test",
 						"id": 123,
-						"custom_field_values": {
+						"custom_fields": {
 							"custom1": {
 								"id": null
 							},

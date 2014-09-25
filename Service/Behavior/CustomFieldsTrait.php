@@ -5,6 +5,7 @@ namespace prgTW\BaseCRM\Service\Behavior;
 use Instantiator\Exception\InvalidArgumentException;
 use prgTW\BaseCRM\Resource\CustomField;
 use prgTW\BaseCRM\Resource\CustomFieldsCollection;
+use prgTW\BaseCRM\Resource\DetachedResource;
 use prgTW\BaseCRM\Resource\LazyLoadedResource;
 
 /**
@@ -106,8 +107,11 @@ trait CustomFieldsTrait
 		return new CustomFieldsCollection($customFields);
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function getCustomFieldsKey()
 	{
-		return 'custom_field_values';
+		return $this instanceof DetachedResource ? 'custom_field_values' : 'custom_fields';
 	}
 }
