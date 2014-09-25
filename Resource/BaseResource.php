@@ -124,6 +124,28 @@ abstract class BaseResource
 	/**
 	 * @param string $name
 	 *
+	 * @return bool
+	 */
+	public function __isset($name)
+	{
+		$issetter = sprintf('isset%s', ucfirst(Inflector::camelize($name)));
+		if (method_exists($this, $issetter))
+		{
+			return $this->$issetter();
+		}
+
+		$key = Inflector::tableize($name);
+		if (array_key_exists($key, $this->data))
+		{
+			return true;
+		}
+
+		return isset($this->$name);
+	}
+
+	/**
+	 * @param string $name
+	 *
 	 * @return mixed
 	 */
 	public function __get($name)
