@@ -329,4 +329,72 @@ class SourcesTest extends AbstractTest
 		$this->assertTrue($source->hasCustomField('custom1'));
 		$this->assertTrue($source->hasCustomField('custom2'));
 	}
+
+	public function testSavingCustomFields()
+	{
+		$client  = \Mockery::mock(GuzzleClient::class);
+		$baseCrm = new BaseCrm('', $client);
+		/** @var Source $source */
+		$source = $baseCrm->getSources()->get(123);
+
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('GET', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery())
+			->andReturn($this->getResponse(200, '
+				{
+					"source": {
+						"name": "test",
+						"id": 123,
+						"custom_fields": {
+							"custom1": {
+								"id": null
+							},
+							"custom2": {
+								"id": 12345,
+								"value": "some value"
+							}
+						}
+					}
+				}
+			'));
+
+		$source->setCustomField('custom1', 'new_value1');
+		$source->setCustomField('custom2', 'new_value2');
+
+		$client
+			->shouldReceive('request')
+			->once()
+			->with('PUT', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
+				'query' => [
+					'source' => [
+						'name'                => 'test',
+						'custom_field_values' => [
+							'custom1' => 'new_value1',
+							'custom2' => 'new_value2',
+						],
+					],
+				],
+			]))
+			->andReturn($this->getResponse(200, '
+				{
+					"source": {
+						"name": "test",
+						"id": 123,
+						"custom_fields": {
+							"custom1": {
+								"id": 123,
+								"value": "new_value1"
+							},
+							"custom2": {
+								"id": 456,
+								"value": "new_value2"
+							}
+						}
+					}
+				}
+			'));
+
+		$source->save();
+	}
 }

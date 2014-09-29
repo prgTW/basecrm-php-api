@@ -7,6 +7,7 @@ use prgTW\BaseCRM\Resource\CustomField;
 use prgTW\BaseCRM\Resource\CustomFieldsCollection;
 use prgTW\BaseCRM\Resource\DetachedResource;
 use prgTW\BaseCRM\Resource\LazyLoadedResource;
+use prgTW\BaseCRM\Service\Enum\CustomFields;
 
 /**
  * @property-read array $data
@@ -112,6 +113,6 @@ trait CustomFieldsTrait
 	 */
 	protected function getCustomFieldsKey()
 	{
-		return $this instanceof DetachedResource ? 'custom_field_values' : 'custom_fields';
+		return $this instanceof DetachedResource ? CustomFields::KEY_SAVING : CustomFields::KEY_FETCHING;
 	}
 }

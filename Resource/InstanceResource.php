@@ -4,6 +4,7 @@ namespace prgTW\BaseCRM\Resource;
 
 use prgTW\BaseCRM\Exception\ResourceException;
 use prgTW\BaseCRM\Service\Behavior\CustomFieldsTrait;
+use prgTW\BaseCRM\Service\Enum\CustomFields;
 
 abstract class InstanceResource extends LazyLoadedResource
 {
@@ -47,7 +48,19 @@ abstract class InstanceResource extends LazyLoadedResource
 		$resourceName = $this->getResourceName();
 		$uri          = $this->getFullUri();
 		$data         = $this->dehydrate($fieldNames);
-		$response     = $this->transport->put($uri, $resourceName, [
+
+		if (in_array(CustomFieldsTrait::class, class_uses($this)))
+		{
+			/** @noinspection PhpUndefinedMethodInspection */
+			$customFields = $this->getCustomFields()->toArray();
+			if ([] !== $customFields)
+			{
+				$data[CustomFields::KEY_SAVING] = $customFields;
+				unset($data[CustomFields::KEY_FETCHING]);
+			}
+		}
+
+		$response = $this->transport->put($uri, $resourceName, [
 			'query' => [
 				$resourceName => $data,
 			],
