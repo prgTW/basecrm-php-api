@@ -368,8 +368,8 @@ class SourcesTest extends AbstractTest
 			->with('PUT', sprintf('%s/%s/sources/123.json', Resource::ENDPOINT_SALES, Resource::PREFIX), $this->getQuery([
 				'query' => [
 					'source' => [
-						'name'                => 'test',
-						'custom_field_values' => [
+						'name'          => 'test',
+						'custom_fields' => [
 							'custom1' => 'new_value1',
 							'custom2' => 'new_value2',
 						],

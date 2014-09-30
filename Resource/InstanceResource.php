@@ -56,7 +56,6 @@ abstract class InstanceResource extends LazyLoadedResource
 			if ([] !== $customFields)
 			{
 				$data[CustomFields::KEY_SAVING] = $customFields;
-				unset($data[CustomFields::KEY_FETCHING]);
 			}
 		}
 

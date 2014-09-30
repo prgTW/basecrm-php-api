@@ -113,6 +113,6 @@ trait CustomFieldsTrait
 	 */
 	protected function getCustomFieldsKey()
 	{
-		return $this instanceof DetachedResource ? CustomFields::KEY_SAVING : CustomFields::KEY_FETCHING;
+		return $this instanceof DetachedResource ? CustomFields::KEY_CREATING : CustomFields::KEY_FETCHING;
 	}
 }
