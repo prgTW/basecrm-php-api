@@ -5,7 +5,13 @@
 	"authors": [
 		{
 			"name": "Tomasz Wójcik",
-			"email": "tomasz.prgtw.wojcik@gmail.com"
+			"email": "tomasz.prgtw.wojcik@gmail.com",
+			"role": "Developer"
+		},
+		{
+			"name": "Dawid Pietrołaj",
+			"email": "dawid.pietrolaj@docplanner.com",
+			"role": "Developer"
 		}
 	],
 	"require": {
