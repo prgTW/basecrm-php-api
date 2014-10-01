@@ -62,7 +62,7 @@ abstract class BaseResource
 	/**
 	 * @param array $data
 	 */
-	public function hydrate(array $data)
+	protected function hydrate(array $data)
 	{
 		$this->data = [];
 		foreach ($data as $key => $value)
@@ -87,7 +87,7 @@ abstract class BaseResource
 	 * @throws ResourceException when dehydration has been stopped
 	 * @return array
 	 */
-	public function dehydrate(array $fieldNames = [])
+	protected function dehydrate(array $fieldNames = [])
 	{
 		$result = $this->preDehydrate($fieldNames);
 		if (false === $result)

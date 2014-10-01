@@ -13,14 +13,9 @@ class SourceTest extends \PHPUnit_Framework_TestCase
 		$source     = new Source();
 		$source->id = 1;
 		$source->setCustomField('custom1', 'value1');
-		$dehydrated = $source->dehydrate();
+		$customFields = $source->getCustomFields()->toArray();
 
-		$this->assertEquals([
-			'id'                  => 1,
-			'custom_field_values' => [
-				'custom1' => 'value1',
-			],
-		], $dehydrated);
+		$this->assertEquals(['custom1' => 'value1'], $customFields);
 		$this->assertInstanceOf(CustomFieldsCollection::class, $source->getCustomFields());
 		$this->assertInstanceOf(CustomField::class, $source->getCustomField('custom1'));
 		$this->assertNull($source->getCustomField('custom1')->getId());
