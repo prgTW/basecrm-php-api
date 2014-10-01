@@ -55,4 +55,16 @@ class BaseCrm extends Resource
 		throw new \LogicException('Cannot call BaseCrm directly');
 		//@codeCoverageIgnoreEnd
 	}
+
+	/**
+	 * @param string $token
+	 *
+	 * @return $this
+	 */
+	public function setToken($token)
+	{
+		$this->transport->setToken($token);
+
+		return $this;
+	}
 }

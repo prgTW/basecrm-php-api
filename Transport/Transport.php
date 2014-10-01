@@ -179,4 +179,16 @@ class Transport
 
 		return $options;
 	}
+
+	/**
+	 * @param string $token
+	 *
+	 * @return $this
+	 */
+	public function setToken($token)
+	{
+		$this->token = $token;
+
+		return $this;
+	}
 }

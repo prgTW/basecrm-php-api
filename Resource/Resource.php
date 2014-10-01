@@ -150,4 +150,12 @@ abstract class Resource extends BaseResource
 
 		return $subResource;
 	}
+
+	/**
+	 * @return Transport
+	 */
+	public function getTransport()
+	{
+		return $this->transport;
+	}
 }
