@@ -57,6 +57,14 @@ class BaseCrm extends Resource
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getToken()
+	{
+		return $this->transport->getToken();
+	}
+
+	/**
 	 * @param string $token
 	 *
 	 * @return $this

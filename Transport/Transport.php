@@ -181,6 +181,14 @@ class Transport
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getToken()
+	{
+		return $this->token;
+	}
+
+	/**
 	 * @param string $token
 	 *
 	 * @return $this

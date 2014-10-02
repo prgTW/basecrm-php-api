@@ -49,7 +49,9 @@ class TransportTest extends AbstractTest
 			])
 			->andReturn($this->getResponse(200, $accountResponse));
 
-		$account = $baseCrm->setToken('astalavista')->getAccount()->get();
+		$baseCrm->setToken('astalavista');
+		$this->assertEquals('astalavista', $baseCrm->getToken());
+		$account = $baseCrm->getAccount()->get();
 
 		$client
 			->shouldReceive('request')
@@ -69,6 +71,7 @@ class TransportTest extends AbstractTest
 
 		$account->name = 'new_name';
 		$account->getTransport()->setToken('baby');
+		$this->assertEquals('baby', $account->getTransport()->getToken());
 		$account->save(['name']);
 	}
 }
