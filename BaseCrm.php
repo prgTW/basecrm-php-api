@@ -29,7 +29,7 @@ class BaseCrm extends Resource
 	 * @param string          $token
 	 * @param ClientInterface $client
 	 */
-	public function __construct($token, ClientInterface $client = null)
+	public function __construct($token = '', ClientInterface $client = null)
 	{
 		$transport = new Transport($token, $client);
 		parent::__construct($transport, '');
