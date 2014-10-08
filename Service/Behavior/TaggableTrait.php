@@ -14,7 +14,7 @@ use prgTW\BaseCRM\Service\Tags;
 trait TaggableTrait
 {
 	/**
-	 * @param array $tags
+	 * @param string[] $tags
 	 *
 	 * @return ResourceCollection
 	 */
