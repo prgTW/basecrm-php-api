@@ -17,7 +17,7 @@ class CustomField
 	public function __construct($name, $dataOrValue)
 	{
 		$this->name = $name;
-		if (false == is_array($dataOrValue))
+		if (false === is_array($dataOrValue))
 		{
 			$dataOrValue = [
 				'id'    => null,
