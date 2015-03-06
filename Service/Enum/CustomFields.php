@@ -7,6 +7,6 @@ use MyCLabs\Enum\Enum;
 class CustomFields extends Enum
 {
 	const KEY_CREATING = 'custom_field_values';
-	const KEY_SAVING   = 'custom_fields';
+	const KEY_SAVING   = 'custom_field_values';
 	const KEY_FETCHING = 'custom_fields';
 }

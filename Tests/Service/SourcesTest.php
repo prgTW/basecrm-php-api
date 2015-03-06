@@ -369,7 +369,7 @@ class SourcesTest extends AbstractTest
 				'query' => [
 					'source' => [
 						'name'          => 'test',
-						'custom_fields' => [
+						'custom_field_values' => [
 							'custom1' => 'new_value1',
 							'custom2' => 'new_value2',
 						],
