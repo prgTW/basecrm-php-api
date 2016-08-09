@@ -47,7 +47,7 @@ class GuzzleClient implements ClientInterface
 		{
 			$this->guzzle = new GuzzleHttpClient([
 				'exceptions' => false,
-				'defaults' = [
+				'defaults' => [
 					'config' => [
 						'curl' => [
 							CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
